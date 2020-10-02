@@ -1,18 +1,14 @@
-# npm-lib-boilerplate
+# bch-message-app
+An npm library for processing messages on the Bitcoin Cash blockchain using bch-js.
 
-This repository is a code 'boilerplate' for starting a new npm library. It
-contains the following features:
+This is a utility library that does blockchain processing of messages on the Bitcoin Cash blockchain. These messages primarily use the [memo.cash protocol](https://memo.cash/protocol), and the end target for this library is the [message.fullstack.cash](https://message.fullstack.cash/) web app.
 
-- [Semantic Release](https://github.com/semantic-release/semantic-release) configured to work with [Travis CI](https://travis-ci.org/).
-- Automatic linting using [Standard](https://www.npmjs.com/package/standard) JavaScript.
-- Unit and integration tests using Mocha and Chai, following the best practices and design patterns in [this YouTube video](https://www.youtube.com/watch?v=lE3RYnchHps):
-  - Uses ECMAScript 2015 `Class` for business logic and utility libraries.
-  - Follows [TDD](https://builttoadapt.io/why-tdd-489fdcdda05e) best practices.
-  - Uses `_this` to maintain context to the instance of the class.
-  - Uses [Sinon stubs](https://sinonjs.org/releases/latest/stubs/) to mock external dependencies for unit tests.
-  - Each function is wrapped in try/catch statements, allowing thrown errors to 'bubble up' to the top-level function, and give every function along the way an opportunity to handle exceptions.
-  - Testing assertions focus on properties and structure, not values.
-
+These are the primary features provided by this library:
+- Retrieve the memo.cash name for a BCH address.
+- Retrieving message notifications and IPFS links from the blockchain that comply with [PS001](https://github.com/Permissionless-Software-Foundation/specifications/blob/master/ps001-media-sharing.md) specification.
+- Calculate the average coin age, merit, and PSF token balance for a BCH address.
+- Push a normal memo.cash message to the blockchain.
+- Push an [PS001](https://github.com/Permissionless-Software-Foundation/specifications/blob/master/ps001-media-sharing.md) encrypt-msg message as a memo.cash message.
 
 # Licence
 [MIT](LICENSE.md)

@@ -1,7 +1,7 @@
 {
-  "name": "@chris.troutner/npm-lib-boilerplate",
+  "name": "bch-message-lib",
   "version": "1.0.0",
-  "description": "A boilerplate for creating an npm library with Semantic Release, linting, and tests.",
+  "description": "An npm library for processing messages on the Bitcoin Cash blockchain using bch-js.",
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
@@ -28,10 +28,10 @@
   "author": "Chris Troutner <chris.troutner@gmail.com>",
   "license": "MIT",
   "apidoc": {
-    "title": "npm-lib-boilerplate",
+    "title": "bch-message-lib",
     "url": "localhost:5000"
   },
-  "repository": "christroutner/npm-lib-boilerplate",
+  "repository": "Permissionless-Software-Foundation/bch-message-lib",
   "dependencies": {
     "@psf/bch-js": "^3.5.3",
     "apidoc": "^0.23.0"
