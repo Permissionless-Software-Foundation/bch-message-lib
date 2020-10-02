@@ -9,17 +9,17 @@
 
 const BCHJS = require('@psf/bch-js')
 
-const Util = require('./lib/util')
-const util = new Util()
-
-let _this // local global for 'this'.
+const MemoLib = require('./lib/memo')
+const memo = new MemoLib()
 
 class BoilplateLib {
-  constructor () {
-    _this = this
+  constructor (config) {
+    // Default to new instance of bch-js
+    this.bchjs = new BCHJS()
+    // Overwrite default if an instance of bch-js is passed in.
+    if (config && config.bchjs) this.bchjs = config.bchjs
 
-    _this.bchjs = new BCHJS()
-    _this.util = util
+    this.memo = memo
   }
 }
 
