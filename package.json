@@ -33,7 +33,7 @@
   },
   "repository": "Permissionless-Software-Foundation/bch-message-lib",
   "dependencies": {
-    "@psf/bch-js": "^3.5.3",
+    "@psf/bch-js": "^3.6.3",
     "apidoc": "^0.23.0"
   },
   "devDependencies": {
