@@ -57,4 +57,89 @@ describe('#memo.js', () => {
       assert.isString(result)
     })
   })
+
+  describe('#writeMsgSignal', () => {
+    it('should throw an error if a WIF is not provided.', async () => {
+      try {
+        await uut.writeMsgSignal()
+
+        assert.equal(true, false, 'Unexpected result!')
+      } catch (err) {
+        // console.log(err)
+        assert.include(err.message, 'WIF must be a string of a private key')
+      }
+    })
+
+    it('should throw an error if a ipfsHash is not provided.', async () => {
+      try {
+        const WIF = 'L2rVamh4TxbTaTZ7oX9pJyNNS2E9ZbkbKs8rjNxZGuq57J2caxY2'
+
+        await uut.writeMsgSignal(WIF)
+
+        assert.equal(true, false, 'Unexpected result!')
+      } catch (err) {
+        // console.log(err)
+        assert.include(err.message, 'IPFS hash must be a string')
+      }
+    })
+
+    it('should throw an error if a bch address is not provided.', async () => {
+      try {
+        const WIF = 'L2rVamh4TxbTaTZ7oX9pJyNNS2E9ZbkbKs8rjNxZGuq57J2caxY2'
+        const ipfsHash = 'QmTfkCdUyU9enyFosTTjBjKgh4BabcCP6ARbPnPq5rTrfr'
+        await uut.writeMsgSignal(WIF, ipfsHash)
+
+        assert.equal(true, false, 'Unexpected result!')
+      } catch (err) {
+        // console.log(err)
+        assert.include(err.message, 'toAddr must be a string of a BCH address')
+      }
+    })
+
+    it('should throw an error if a subject is not provided.', async () => {
+      try {
+        const WIF = 'L2rVamh4TxbTaTZ7oX9pJyNNS2E9ZbkbKs8rjNxZGuq57J2caxY2'
+        const ipfsHash = 'QmTfkCdUyU9enyFosTTjBjKgh4BabcCP6ARbPnPq5rTrfr'
+        const toAddr = 'bitcoincash:qpnty9t0w93fez04h7yzevujpv8pun204qv6yfuahk'
+        await uut.writeMsgSignal(WIF, ipfsHash, toAddr)
+
+        assert.equal(true, false, 'Unexpected result!')
+      } catch (err) {
+        // console.log(err)
+        assert.include(err.message, 'subject must be a string')
+      }
+    })
+
+    it('should throw an error if could not get UTXOs.', async () => {
+      try {
+        sandbox.stub(uut.bchjs.Electrumx, 'utxo').resolves({ success: false })
+
+        const WIF = 'L2rVamh4TxbTaTZ7oX9pJyNNS2E9ZbkbKs8rjNxZGuq57J2caxY2'
+        const ipfsHash = 'QmTfkCdUyU9enyFosTTjBjKgh4BabcCP6ARbPnPq5rTrfr'
+        const toAddr = 'bitcoincash:qpnty9t0w93fez04h7yzevujpv8pun204qv6yfuahk'
+        const subject = 'A message for you'
+
+        await uut.writeMsgSignal(WIF, ipfsHash, toAddr, subject)
+
+        assert.equal(true, false, 'Unexpected result!')
+      } catch (err) {
+        // console.log(err)
+        assert.include(err.message, 'Could not get UTXOs')
+      }
+    })
+
+    it('should return a hex transaction for writing data to the blockchain', async () => {
+      // Mock live network calls.
+      sandbox.stub(uut.bchjs.Electrumx, 'utxo').resolves(mockData.mockUtxo)
+
+      const WIF = 'L2rVamh4TxbTaTZ7oX9pJyNNS2E9ZbkbKs8rjNxZGuq57J2caxY2'
+      const ipfsHash = 'QmT17Px3WcydqbZnKGUkKb5tWTM7Ypoz1UJ1MHWngC49xQ'
+      const toAddr = 'bitcoincash:qzxk8ecxm6drkcjtkrepesx5dd45fsvjauvxeeynfy'
+      const subject = 'A message for you'
+      const result = await uut.writeMsgSignal(WIF, ipfsHash, toAddr, subject)
+      // console.log(`result: ${JSON.stringify(result, null, 2)}`)
+
+      assert.isString(result)
+    })
+  })
 })
