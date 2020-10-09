@@ -69,6 +69,7 @@ describe('#memo.js', () => {
         assert.include(err.message, 'WIF must be a string of a private key')
       }
     })
+
     it('should throw an error if a ipfsHash is not provided.', async () => {
       try {
         const WIF = 'L2rVamh4TxbTaTZ7oX9pJyNNS2E9ZbkbKs8rjNxZGuq57J2caxY2'
@@ -81,6 +82,7 @@ describe('#memo.js', () => {
         assert.include(err.message, 'IPFS hash must be a string')
       }
     })
+
     it('should throw an error if a bch address is not provided.', async () => {
       try {
         const WIF = 'L2rVamh4TxbTaTZ7oX9pJyNNS2E9ZbkbKs8rjNxZGuq57J2caxY2'
@@ -93,6 +95,7 @@ describe('#memo.js', () => {
         assert.include(err.message, 'toAddr must be a string of a BCH address')
       }
     })
+
     it('should throw an error if a subject is not provided.', async () => {
       try {
         const WIF = 'L2rVamh4TxbTaTZ7oX9pJyNNS2E9ZbkbKs8rjNxZGuq57J2caxY2'
@@ -106,6 +109,7 @@ describe('#memo.js', () => {
         assert.include(err.message, 'subject must be a string')
       }
     })
+
     it('should throw an error if could not get UTXOs.', async () => {
       try {
         sandbox.stub(uut.bchjs.Electrumx, 'utxo').resolves({ success: false })

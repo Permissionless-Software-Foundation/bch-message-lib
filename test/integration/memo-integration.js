@@ -29,6 +29,7 @@ describe('#memo.js', () => {
       assert.isString(result)
     })
   })
+
   describe('#writeMsgSignal', () => {
     it('should return a hex transaction for writing data to the blockchain', async () => {
       const WIF = 'L2rVamh4TxbTaTZ7oX9pJyNNS2E9ZbkbKs8rjNxZGuq57J2caxY2'
