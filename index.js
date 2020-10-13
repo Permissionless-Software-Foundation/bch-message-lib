@@ -12,6 +12,9 @@ const BCHJS = require('@psf/bch-js')
 const MemoLib = require('./lib/memo')
 const memo = new MemoLib()
 
+const MeritLib = require('./lib/merit')
+const merit = new MeritLib()
+
 class BoilplateLib {
   constructor (config) {
     // Default to new instance of bch-js
@@ -20,6 +23,7 @@ class BoilplateLib {
     if (config && config.bchjs) this.bchjs = config.bchjs
 
     this.memo = memo
+    this.merit = merit
   }
 }
 
