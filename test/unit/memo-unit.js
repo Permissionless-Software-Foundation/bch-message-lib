@@ -142,4 +142,176 @@ describe('#memo.js', () => {
       assert.isString(result)
     })
   })
+
+  describe('#readMsgSignal', () => {
+    it('should throw an error if a bchAddr is not provided.', async () => {
+      try {
+        await uut.readMsgSignal()
+
+        assert.equal(true, false, 'Unexpected result!')
+      } catch (err) {
+        // console.log(err)
+        assert.include(err.message, 'bchAddr must be a string of a BCH address.')
+      }
+    })
+    it('Should throw error if no transaction history could be found.', async () => {
+      try {
+        sandbox
+          .stub(uut.bchjs.Electrumx, 'transactions')
+          .resolves({ success: false, transactions: mockData.transactions })
+
+        const bchAddr = 'bitcoincash:qpnty9t0w93fez04h7yzevujpv8pun204qv6yfuahk'
+        await uut.readMsgSignal(bchAddr)
+        assert.equal(true, false, 'Unexpected result!')
+      } catch (err) {
+        assert.include(err.message, 'No transaction history could be found')
+      }
+    })
+
+    it('Should return empty array if messages not found.', async () => {
+      try {
+        sandbox
+          .stub(uut.bchjs.Electrumx, 'transactions')
+          .resolves({ success: true, transactions: mockData.transactions })
+
+        sandbox
+          .stub(uut.bchjs.RawTransactions, 'getRawTransaction')
+          .resolves({ vout: mockData.transactionVout2 })
+        const bchAddr = 'bitcoincash:qpnty9t0w93fez04h7yzevujpv8pun204qv6yfuahk'
+        const result = await uut.readMsgSignal(bchAddr)
+
+        assert.isArray(result)
+        assert.equal(result.length, 0)
+      } catch (err) {
+        assert.equal(true, false, 'Unexpected result!')
+      }
+    })
+
+    it('should return messages array.', async () => {
+      try {
+        sandbox
+          .stub(uut.bchjs.Electrumx, 'transactions')
+          .resolves({ success: true, transactions: mockData.transactions })
+
+        sandbox
+          .stub(uut.bchjs.RawTransactions, 'getRawTransaction')
+          .resolves({ vout: mockData.transactionVout })
+        const bchAddr = 'bitcoincash:qpnty9t0w93fez04h7yzevujpv8pun204qv6yfuahk'
+        const result = await uut.readMsgSignal(bchAddr)
+
+        assert.isArray(result)
+        assert.property(result[0], 'hash')
+        assert.property(result[0], 'subject')
+        assert.property(result[0], 'sender')
+      } catch (err) {
+        assert.equal(true, false, 'Unexpected result!')
+      }
+    })
+    it('should return messages array with preface provided.', async () => {
+      try {
+        sandbox
+          .stub(uut.bchjs.Electrumx, 'transactions')
+          .resolves({ success: true, transactions: mockData.transactions })
+
+        sandbox
+          .stub(uut.bchjs.RawTransactions, 'getRawTransaction')
+          .resolves({ vout: mockData.transactionVout })
+        const bchAddr = 'bitcoincash:qpnty9t0w93fez04h7yzevujpv8pun204qv6yfuahk'
+        const result = await uut.readMsgSignal(bchAddr, 'IPFS')
+        assert.isArray(result)
+        assert.property(result[0], 'hash')
+        assert.property(result[0], 'subject')
+        assert.property(result[0], 'sender')
+      } catch (err) {
+        assert.equal(true, false, 'Unexpected result!')
+      }
+    })
+  })
+
+  describe('#decodeTransaction', () => {
+    it('should return false if asm is not provided.', async () => {
+      try {
+        const result = await uut.decodeTransaction()
+        assert.isFalse(result)
+      } catch (err) {
+        // console.log(err)
+        assert.equal(true, false, 'Unexpected result!')
+      }
+    })
+    it('should return false if asm dont have OP_RETURN.', async () => {
+      try {
+        const asm = 'OP_DUP OP_HASH160 28250c1c089774b9675ac8c48f297f58847835d0 OP_EQUALVERIFY OP_CHECKSIG'
+        const result = await uut.decodeTransaction(asm)
+        assert.isFalse(result)
+      } catch (err) {
+        // console.log(err)
+        assert.equal(true, false, 'Unexpected result!')
+      }
+    })
+    it('should decode asm OP_RETURN.', async () => {
+      try {
+        const asm = 'OP_RETURN 621 4d5347204950465320516d5431375078335763796471625a6e4b47556b4b62357457544d3759706f7a31554a314d48576e6743343978512041206d65737361676520666f7220796f75'
+        const result = await uut.decodeTransaction(asm)
+        assert.isString(result)
+      } catch (err) {
+        // console.log(err)
+        assert.equal(true, false, 'Unexpected result!')
+      }
+    })
+  })
+  describe('#filterMSG', () => {
+    it('should return false if msg is not provided', async () => {
+      try {
+        const result = await uut.filterMSG()
+        assert.isFalse(result)
+      } catch (err) {
+        // console.log(err)
+        assert.equal(true, false, 'Unexpected result!')
+      }
+    })
+    it('should return false if msg preface is not provided', async () => {
+      try {
+        const msg = 'MSG IPFS QmT17Px3WcydqbZnKGUkKb5tWTM7Ypoz1UJ1MHWngC49xQ A message for you'
+        const result = await uut.filterMSG(msg)
+        assert.isFalse(result)
+      } catch (err) {
+        // console.log(err)
+        assert.equal(true, false, 'Unexpected result!')
+      }
+    })
+    it('should return false if preface dont match', async () => {
+      try {
+        const msg = 'MSG IPFS QmT17Px3WcydqbZnKGUkKb5tWTM7Ypoz1UJ1MHWngC49xQ A message for you'
+        const result = await uut.filterMSG(msg, 'test')
+        assert.isFalse(result)
+      } catch (err) {
+        // console.log(err)
+        assert.equal(true, false, 'Unexpected result!')
+      }
+    })
+  })
+  describe('#sortTxsByHeight', () => {
+    it('should sort the transactions', async () => {
+      try {
+        const transactions = mockData.transactions
+        const result = await uut.sortTxsByHeight(transactions)
+        assert.isArray(result)
+        assert.equal(result.length, transactions.length)
+      } catch (err) {
+        // console.log(err)
+        assert.equal(true, false, 'Unexpected result!')
+      }
+    })
+    it('should sort the transactions in descending order', async () => {
+      try {
+        const transactions = mockData.transactions
+        const result = await uut.sortTxsByHeight(transactions, 'DESCENDING')
+        assert.isArray(result)
+        assert.equal(result.length, transactions.length)
+      } catch (err) {
+        // console.log(err)
+        assert.equal(true, false, 'Unexpected result!')
+      }
+    })
+  })
 })
