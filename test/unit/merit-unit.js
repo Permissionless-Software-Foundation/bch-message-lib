@@ -40,7 +40,9 @@ describe('#merit.js', () => {
     it('should return token UTXOs for an SLP address', async () => {
       // Mock live network calls.
       sandbox.stub(uut.bchjs.Electrumx, 'utxo').resolves(mockData.mockUtxos)
-      sandbox.stub(uut.bchjs.SLP.Utils, 'hydrateUtxos').resolves(mockData.mockHydratedUtxos)
+      sandbox
+        .stub(uut.bchjs.SLP.Utils, 'hydrateUtxos')
+        .resolves(mockData.mockHydratedUtxos)
 
       const addr = 'simpleledger:qz9l5w0fvp670a8r48apsv0xqek840320c90neac9g'
 
@@ -48,13 +50,18 @@ describe('#merit.js', () => {
       // console.log(`utxos: ${JSON.stringify(utxos, null, 2)}`)
 
       assert.isArray(utxos)
-      assert.equal(utxos[0].tokenId, '38e97c5d7d3585a2cbf3f9580c82ca33985f9cb0845d4dcce220cb709f9538b0')
+      assert.equal(
+        utxos[0].tokenId,
+        '38e97c5d7d3585a2cbf3f9580c82ca33985f9cb0845d4dcce220cb709f9538b0'
+      )
     })
 
     it('should handle errors', async () => {
       try {
         // Force an error
-        sandbox.stub(uut.bchjs.Electrumx, 'utxo').rejects(new Error('test error'))
+        sandbox
+          .stub(uut.bchjs.Electrumx, 'utxo')
+          .rejects(new Error('test error'))
 
         const addr = 'simpleledger:qz9l5w0fvp670a8r48apsv0xqek840320c90neac9g'
 
@@ -63,6 +70,27 @@ describe('#merit.js', () => {
         assert.equal(true, false, 'Unexpected result')
       } catch (err) {
         assert.include(err.message, 'test error')
+      }
+    })
+  })
+
+  describe('#getTokenQuantity', () => {
+    it('should sum token quantity', () => {
+      const utxos = mockData.mockTokenUtxos
+
+      const tokenQty = uut.getTokenQuantity(utxos)
+
+      assert.isNumber(tokenQty)
+    })
+
+    it('should handle an error', () => {
+      try {
+        uut.getTokenQuantity(1234)
+
+        assert.equal(true, false, 'Unexpected result')
+      } catch (err) {
+        // console.log(err)
+        assert.include(err.message, 'hydratedUtxos.map is not a function')
       }
     })
   })

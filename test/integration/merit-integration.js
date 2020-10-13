@@ -37,4 +37,18 @@ describe('#merit', () => {
       )
     })
   })
+
+  describe('#getTokenQuantity', () => {
+    it('should return the PSF tokens held by an address', async () => {
+      const addr = 'simpleledger:qrrh8reyhqgrw0ly884snn4llxgs44lkfcly2vlrsh'
+
+      const utxos = await uut.getTokenUtxos(addr)
+      console.log(`utxos: ${JSON.stringify(utxos, null, 2)}`)
+
+      const tokenQty = uut.getTokenQuantity(utxos)
+      console.log(`tokenQty: ${tokenQty}`)
+
+      assert.isNumber(tokenQty)
+    })
+  })
 })
