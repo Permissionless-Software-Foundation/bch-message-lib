@@ -43,12 +43,35 @@ describe('#merit', () => {
       const addr = 'simpleledger:qrrh8reyhqgrw0ly884snn4llxgs44lkfcly2vlrsh'
 
       const utxos = await uut.getTokenUtxos(addr)
-      console.log(`utxos: ${JSON.stringify(utxos, null, 2)}`)
+      // console.log(`utxos: ${JSON.stringify(utxos, null, 2)}`)
 
       const tokenQty = uut.getTokenQuantity(utxos)
-      console.log(`tokenQty: ${tokenQty}`)
+      // console.log(`tokenQty: ${tokenQty}`)
 
       assert.isNumber(tokenQty)
+    })
+  })
+
+  describe('#calcMerit', () => {
+    it('should calculate age and merit', async () => {
+      const addr = 'simpleledger:qrrh8reyhqgrw0ly884snn4llxgs44lkfcly2vlrsh'
+
+      const utxos = await uut.getTokenUtxos(addr)
+      console.log(`utxos: ${JSON.stringify(utxos, null, 2)}`)
+
+      const hydratedUtxos = await uut.calcMerit(utxos)
+      console.log(`hydratedUtxos: ${JSON.stringify(hydratedUtxos, null, 2)}`)
+    })
+  })
+
+  describe('#agMerit', () => {
+    it('should aggregate merit across multiple UTXOs', async () => {
+      const addr = 'simpleledger:qrrh8reyhqgrw0ly884snn4llxgs44lkfcly2vlrsh'
+
+      const merit = await uut.agMerit(addr)
+      console.log(`merit: ${merit}`)
+
+      assert.isNumber(merit)
     })
   })
 })
