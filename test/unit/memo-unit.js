@@ -314,4 +314,65 @@ describe('#memo.js', () => {
       }
     })
   })
+  describe('#findName', () => {
+    it('should throw an error if a bchAddr is not provided.', async () => {
+      try {
+        await uut.findName()
+
+        assert.equal(true, false, 'Unexpected result!')
+      } catch (err) {
+        // console.log(err)
+        assert.include(err.message, 'bchAddr must be a string of a BCH address.')
+      }
+    })
+    it('Should throw error if no transaction history could be found.', async () => {
+      try {
+        sandbox
+          .stub(uut.bchjs.Electrumx, 'transactions')
+          .resolves({ success: false, transactions: mockData.transactions })
+
+        const bchAddr = 'bitcoincash:qpnty9t0w93fez04h7yzevujpv8pun204qv6yfuahk'
+        await uut.findName(bchAddr)
+        assert.equal(true, false, 'Unexpected result!')
+      } catch (err) {
+        assert.include(err.message, 'No transaction history could be found')
+      }
+    })
+
+    it('Should return false if the name not found.', async () => {
+      try {
+        sandbox
+          .stub(uut.bchjs.Electrumx, 'transactions')
+          .resolves({ success: true, transactions: mockData.transactions })
+
+        sandbox
+          .stub(uut.bchjs.RawTransactions, 'getRawTransaction')
+          .resolves({ vout: mockData.transactionVout2 })
+        const bchAddr = 'bitcoincash:qpnty9t0w93fez04h7yzevujpv8pun204qv6yfuahk'
+        const result = await uut.findName(bchAddr)
+
+        assert.isFalse(result)
+      } catch (err) {
+        assert.equal(true, false, 'Unexpected result!')
+      }
+    })
+
+    it('Should return associated name.', async () => {
+      try {
+        sandbox
+          .stub(uut.bchjs.Electrumx, 'transactions')
+          .resolves({ success: true, transactions: mockData.transactions })
+
+        sandbox
+          .stub(uut.bchjs.RawTransactions, 'getRawTransaction')
+          .resolves({ vout: mockData.transactionVout })
+        const bchAddr = 'bitcoincash:qpnty9t0w93fez04h7yzevujpv8pun204qv6yfuahk'
+        const result = await uut.findName(bchAddr)
+
+        assert.isString(result)
+      } catch (err) {
+        assert.equal(true, false, 'Unexpected result!')
+      }
+    })
+  })
 })
