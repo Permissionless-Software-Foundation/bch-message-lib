@@ -70,10 +70,12 @@ describe('#memo.js', () => {
       assert.property(result[0], 'sender')
     })
   })
+
   describe('#findName', () => {
     it('Should return associated name', async () => {
       const bchAddr = 'qrgy9cg2fra4vrmjkryxa326kpt4kwfjpunmexhwwp'
       const result = await uut.findName(bchAddr)
+      console.log(`result: ${JSON.stringify(result, null, 2)}`)
 
       assert.isString(result)
     })

@@ -365,6 +365,7 @@ describe('#memo.js', () => {
       }
     })
   })
+
   describe('#findName', () => {
     it('should throw an error if a bchAddr is not provided.', async () => {
       try {
@@ -373,17 +374,22 @@ describe('#memo.js', () => {
         assert.equal(true, false, 'Unexpected result!')
       } catch (err) {
         // console.log(err)
-        assert.include(err.message, 'bchAddr must be a string of a BCH address.')
+        assert.include(
+          err.message,
+          'bchAddr must be a string of a BCH address.'
+        )
       }
     })
+
     it('Should throw error if no transaction history could be found.', async () => {
       try {
         sandbox
-          .stub(uut.bchjs.Electrumx, 'transactions')
-          .resolves({ success: false, transactions: mockData.transactions })
+          .stub(uut, 'getTransactions')
+          .rejects(new Error('No transaction history could be found'))
 
-        const bchAddr = 'bitcoincash:qpnty9t0w93fez04h7yzevujpv8pun204qv6yfuahk'
+        const bchAddr = 'qrgy9cg2fra4vrmjkryxa326kpt4kwfjpunmexhwwp'
         await uut.findName(bchAddr)
+
         assert.equal(true, false, 'Unexpected result!')
       } catch (err) {
         assert.include(err.message, 'No transaction history could be found')
@@ -392,13 +398,8 @@ describe('#memo.js', () => {
 
     it('Should return false if the name not found.', async () => {
       try {
-        sandbox
-          .stub(uut.bchjs.Electrumx, 'transactions')
-          .resolves({ success: true, transactions: mockData.transactions })
+        sandbox.stub(uut, 'getTransactions').resolves(mockData.mockTxData)
 
-        sandbox
-          .stub(uut.bchjs.RawTransactions, 'getRawTransaction')
-          .resolves({ vout: mockData.transactionVout2 })
         const bchAddr = 'bitcoincash:qpnty9t0w93fez04h7yzevujpv8pun204qv6yfuahk'
         const result = await uut.findName(bchAddr)
 
@@ -410,14 +411,9 @@ describe('#memo.js', () => {
 
     it('Should return associated name.', async () => {
       try {
-        sandbox
-          .stub(uut.bchjs.Electrumx, 'transactions')
-          .resolves({ success: true, transactions: mockData.transactions })
+        sandbox.stub(uut, 'getTransactions').resolves(mockData.mockNameTXData)
 
-        sandbox
-          .stub(uut.bchjs.RawTransactions, 'getRawTransaction')
-          .resolves({ vout: mockData.transactionVout })
-        const bchAddr = 'bitcoincash:qpnty9t0w93fez04h7yzevujpv8pun204qv6yfuahk'
+        const bchAddr = 'qrgy9cg2fra4vrmjkryxa326kpt4kwfjpunmexhwwp'
         const result = await uut.findName(bchAddr)
 
         assert.isString(result)
