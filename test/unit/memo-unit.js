@@ -365,4 +365,61 @@ describe('#memo.js', () => {
       }
     })
   })
+
+  describe('#findName', () => {
+    it('should throw an error if a bchAddr is not provided.', async () => {
+      try {
+        await uut.findName()
+
+        assert.equal(true, false, 'Unexpected result!')
+      } catch (err) {
+        // console.log(err)
+        assert.include(
+          err.message,
+          'bchAddr must be a string of a BCH address.'
+        )
+      }
+    })
+
+    it('Should throw error if no transaction history could be found.', async () => {
+      try {
+        sandbox
+          .stub(uut, 'getTransactions')
+          .rejects(new Error('No transaction history could be found'))
+
+        const bchAddr = 'qrgy9cg2fra4vrmjkryxa326kpt4kwfjpunmexhwwp'
+        await uut.findName(bchAddr)
+
+        assert.equal(true, false, 'Unexpected result!')
+      } catch (err) {
+        assert.include(err.message, 'No transaction history could be found')
+      }
+    })
+
+    it('Should return false if the name not found.', async () => {
+      try {
+        sandbox.stub(uut, 'getTransactions').resolves(mockData.mockTxData)
+
+        const bchAddr = 'bitcoincash:qpnty9t0w93fez04h7yzevujpv8pun204qv6yfuahk'
+        const result = await uut.findName(bchAddr)
+
+        assert.isFalse(result)
+      } catch (err) {
+        assert.equal(true, false, 'Unexpected result!')
+      }
+    })
+
+    it('Should return associated name.', async () => {
+      try {
+        sandbox.stub(uut, 'getTransactions').resolves(mockData.mockNameTXData)
+
+        const bchAddr = 'qrgy9cg2fra4vrmjkryxa326kpt4kwfjpunmexhwwp'
+        const result = await uut.findName(bchAddr)
+
+        assert.isString(result)
+      } catch (err) {
+        assert.equal(true, false, 'Unexpected result!')
+      }
+    })
+  })
 })

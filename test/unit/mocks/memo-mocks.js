@@ -58,6 +58,16 @@ const transactionVout = [
         '6a026d02494d5347204950465320516d5431375078335763796471625a6e4b47556b4b62357457544d3759706f7a31554a314d48576e6743343978512041206d65737361676520666f7220796f75',
       type: 'nulldata'
     }
+  },
+  {
+    value: 0,
+    n: 1,
+    scriptPubKey: {
+      asm: 'OP_RETURN 365 44616e69656c2048756d626572746f',
+      hex:
+        '6a026d02494d5347204950465320516d5431375078335763796471625a6e4b47556b4b62357457544d3759706f7a31554a314d48576e6743343978512041206d65737361676520666f7220796f75',
+      type: 'nulldata'
+    }
   }
 ]
 // Vouts without Permissionless Software Foundation Specification 001 (PS001)
@@ -268,11 +278,201 @@ const mockTxData = [
   }
 ]
 
+const mockNameTXData = [
+  {
+    txid: '8a462aa966fcc8c629d6f6e62d7dc7e0355afad9d61c87152bd87ddcd3b0f8b0',
+    hash: '8a462aa966fcc8c629d6f6e62d7dc7e0355afad9d61c87152bd87ddcd3b0f8b0',
+    version: 1,
+    size: 192,
+    locktime: 0,
+    vin: [
+      {
+        txid:
+          'edd0867c8ff0804443616c3c029132847babefaf01af65f88e50d406d7f80f0d',
+        vout: 1,
+        scriptSig: {
+          asm:
+            '304502210094faa3991a530f918ecb59de27526ddb880f614c549f24111c5deb3a1f667c9202207837e64ea43227ac33f76a02c9e5fd8271ca0332a416c3ffd26cc12b4b44664a[ALL|FORKID] 02b9909c3dfcdd1c3153eb339f1c8b309bd6dcc2c5238859dbee1a71a3aeff1ee1',
+          hex:
+            '48304502210094faa3991a530f918ecb59de27526ddb880f614c549f24111c5deb3a1f667c9202207837e64ea43227ac33f76a02c9e5fd8271ca0332a416c3ffd26cc12b4b44664a412102b9909c3dfcdd1c3153eb339f1c8b309bd6dcc2c5238859dbee1a71a3aeff1ee1'
+        },
+        sequence: 4294967295
+      }
+    ],
+    vout: [
+      {
+        value: 0.00005427,
+        n: 0,
+        scriptPubKey: {
+          asm:
+            'OP_DUP OP_HASH160 d042e10a48fb560f72b0c86ec55ab0575b39320f OP_EQUALVERIFY OP_CHECKSIG',
+          hex: '76a914d042e10a48fb560f72b0c86ec55ab0575b39320f88ac',
+          reqSigs: 1,
+          type: 'pubkeyhash',
+          addresses: ['bitcoincash:qrgy9cg2fra4vrmjkryxa326kpt4kwfjpunmexhwwp']
+        }
+      }
+    ],
+    hex:
+      '01000000010d0ff8d706d4508ef865af01afefab7b843291023c6c61434480f08f7c86d0ed010000006b48304502210094faa3991a530f918ecb59de27526ddb880f614c549f24111c5deb3a1f667c9202207837e64ea43227ac33f76a02c9e5fd8271ca0332a416c3ffd26cc12b4b44664a412102b9909c3dfcdd1c3153eb339f1c8b309bd6dcc2c5238859dbee1a71a3aeff1ee1ffffffff0133150000000000001976a914d042e10a48fb560f72b0c86ec55ab0575b39320f88ac00000000',
+    blockhash:
+      '0000000000000000020c9083d6f736601bfc2606c7899fd0037c64af2dda05e7',
+    confirmations: 385,
+    time: 1602640631,
+    blocktime: 1602640631
+  },
+  {
+    txid: '9e494402b15ef7d5ef0aef1e14efb436382efd9ec88367ffe29d24440b5778e0',
+    hash: '9e494402b15ef7d5ef0aef1e14efb436382efd9ec88367ffe29d24440b5778e0',
+    version: 1,
+    size: 214,
+    locktime: 0,
+    vin: [
+      {
+        txid:
+          '8a462aa966fcc8c629d6f6e62d7dc7e0355afad9d61c87152bd87ddcd3b0f8b0',
+        vout: 0,
+        scriptSig: {
+          asm:
+            '3044022074639d321dee93fc0d7468d6cc3c033fc1287d98d6a79bbc7f22684bf0fc983e0220565183cb0ffb6edc773d4c893ee2e901ff5e14c2499fa027ea6354896e5ba29a[ALL|FORKID] 0364eaf632b322a43a648ab78c456487ce2db255baef7cb9ea5349598b95f4ca22',
+          hex:
+            '473044022074639d321dee93fc0d7468d6cc3c033fc1287d98d6a79bbc7f22684bf0fc983e0220565183cb0ffb6edc773d4c893ee2e901ff5e14c2499fa027ea6354896e5ba29a41210364eaf632b322a43a648ab78c456487ce2db255baef7cb9ea5349598b95f4ca22'
+        },
+        sequence: 4294967295
+      }
+    ],
+    vout: [
+      {
+        value: 0,
+        n: 0,
+        scriptPubKey: {
+          asm: 'OP_RETURN 365 54657374204e616d65',
+          hex: '6a026d010954657374204e616d65',
+          type: 'nulldata'
+        }
+      },
+      {
+        value: 0.00005212,
+        n: 1,
+        scriptPubKey: {
+          asm:
+            'OP_DUP OP_HASH160 b1333c4af967887b3fa270e4712caec73469f49a OP_EQUALVERIFY OP_CHECKSIG',
+          hex: '76a914b1333c4af967887b3fa270e4712caec73469f49a88ac',
+          reqSigs: 1,
+          type: 'pubkeyhash',
+          addresses: ['bitcoincash:qzcnx0z2l9ncs7el5fcwgufv4mrng605ngc8p5csqn']
+        }
+      }
+    ],
+    hex:
+      '0100000001b0f8b0d3dc7dd82b15871cd6d9fa5a35e0c77d2de6f6d629c6c8fc66a92a468a000000006a473044022074639d321dee93fc0d7468d6cc3c033fc1287d98d6a79bbc7f22684bf0fc983e0220565183cb0ffb6edc773d4c893ee2e901ff5e14c2499fa027ea6354896e5ba29a41210364eaf632b322a43a648ab78c456487ce2db255baef7cb9ea5349598b95f4ca22ffffffff0200000000000000000e6a026d010954657374204e616d655c140000000000001976a914b1333c4af967887b3fa270e4712caec73469f49a88ac00000000',
+    blockhash:
+      '0000000000000000020c9083d6f736601bfc2606c7899fd0037c64af2dda05e7',
+    confirmations: 385,
+    time: 1602640631,
+    blocktime: 1602640631
+  },
+  {
+    txid: 'ae44f938478153744605b3182ae954eb6b8b799ad3fad865ad5f2e7c2e03c933',
+    hash: 'ae44f938478153744605b3182ae954eb6b8b799ad3fad865ad5f2e7c2e03c933',
+    version: 1,
+    size: 215,
+    locktime: 0,
+    vin: [
+      {
+        txid:
+          'c53fe6f4cd78fe7daf77517c089b7307b32da5284fe900465b6176269cc4eb96',
+        vout: 0,
+        scriptSig: {
+          asm:
+            '3045022100c54e4f6dcddc1942e5fcf2d6272561fa110ac26fec723ddd266b961ef1de3c74022044146c06438480cfbf5876b63cd6c13a8c3552d6dc918843cc0658eea8408dac[ALL|FORKID] 0364eaf632b322a43a648ab78c456487ce2db255baef7cb9ea5349598b95f4ca22',
+          hex:
+            '483045022100c54e4f6dcddc1942e5fcf2d6272561fa110ac26fec723ddd266b961ef1de3c74022044146c06438480cfbf5876b63cd6c13a8c3552d6dc918843cc0658eea8408dac41210364eaf632b322a43a648ab78c456487ce2db255baef7cb9ea5349598b95f4ca22'
+        },
+        sequence: 4294967295
+      }
+    ],
+    vout: [
+      {
+        value: 0,
+        n: 0,
+        scriptPubKey: {
+          asm: 'OP_RETURN 365 54657374204e616d65',
+          hex: '6a026d010954657374204e616d65',
+          type: 'nulldata'
+        }
+      },
+      {
+        value: 0.00005764,
+        n: 1,
+        scriptPubKey: {
+          asm:
+            'OP_DUP OP_HASH160 b1333c4af967887b3fa270e4712caec73469f49a OP_EQUALVERIFY OP_CHECKSIG',
+          hex: '76a914b1333c4af967887b3fa270e4712caec73469f49a88ac',
+          reqSigs: 1,
+          type: 'pubkeyhash',
+          addresses: ['bitcoincash:qzcnx0z2l9ncs7el5fcwgufv4mrng605ngc8p5csqn']
+        }
+      }
+    ],
+    hex:
+      '010000000196ebc49c2676615b4600e94f28a52db307739b087c5177af7dfe78cdf4e63fc5000000006b483045022100c54e4f6dcddc1942e5fcf2d6272561fa110ac26fec723ddd266b961ef1de3c74022044146c06438480cfbf5876b63cd6c13a8c3552d6dc918843cc0658eea8408dac41210364eaf632b322a43a648ab78c456487ce2db255baef7cb9ea5349598b95f4ca22ffffffff0200000000000000000e6a026d010954657374204e616d6584160000000000001976a914b1333c4af967887b3fa270e4712caec73469f49a88ac00000000',
+    blockhash:
+      '0000000000000000020c9083d6f736601bfc2606c7899fd0037c64af2dda05e7',
+    confirmations: 385,
+    time: 1602640631,
+    blocktime: 1602640631
+  },
+  {
+    txid: 'c53fe6f4cd78fe7daf77517c089b7307b32da5284fe900465b6176269cc4eb96',
+    hash: 'c53fe6f4cd78fe7daf77517c089b7307b32da5284fe900465b6176269cc4eb96',
+    version: 1,
+    size: 192,
+    locktime: 0,
+    vin: [
+      {
+        txid:
+          '1c7fd4fee044a78de2f7a03698a6d6865a43962378283dfd004ce0769011b51e',
+        vout: 1,
+        scriptSig: {
+          asm:
+            '3045022100dec814c8251d569fe3bdfb3736b21629adc9cdb5b4d8c074d49e77929b14eb1a02204884647c9229d39a5763fdfc0e11c60a52745de09665a855e4f2feae977e7f58[ALL|FORKID] 02b9909c3dfcdd1c3153eb339f1c8b309bd6dcc2c5238859dbee1a71a3aeff1ee1',
+          hex:
+            '483045022100dec814c8251d569fe3bdfb3736b21629adc9cdb5b4d8c074d49e77929b14eb1a02204884647c9229d39a5763fdfc0e11c60a52745de09665a855e4f2feae977e7f58412102b9909c3dfcdd1c3153eb339f1c8b309bd6dcc2c5238859dbee1a71a3aeff1ee1'
+        },
+        sequence: 4294967295
+      }
+    ],
+    vout: [
+      {
+        value: 0.00005979,
+        n: 0,
+        scriptPubKey: {
+          asm:
+            'OP_DUP OP_HASH160 d042e10a48fb560f72b0c86ec55ab0575b39320f OP_EQUALVERIFY OP_CHECKSIG',
+          hex: '76a914d042e10a48fb560f72b0c86ec55ab0575b39320f88ac',
+          reqSigs: 1,
+          type: 'pubkeyhash',
+          addresses: ['bitcoincash:qrgy9cg2fra4vrmjkryxa326kpt4kwfjpunmexhwwp']
+        }
+      }
+    ],
+    hex:
+      '01000000011eb5119076e04c00fd3d28782396435a86d6a69836a0f7e28da744e0fed47f1c010000006b483045022100dec814c8251d569fe3bdfb3736b21629adc9cdb5b4d8c074d49e77929b14eb1a02204884647c9229d39a5763fdfc0e11c60a52745de09665a855e4f2feae977e7f58412102b9909c3dfcdd1c3153eb339f1c8b309bd6dcc2c5238859dbee1a71a3aeff1ee1ffffffff015b170000000000001976a914d042e10a48fb560f72b0c86ec55ab0575b39320f88ac00000000',
+    blockhash:
+      '0000000000000000020c9083d6f736601bfc2606c7899fd0037c64af2dda05e7',
+    confirmations: 385,
+    time: 1602640631,
+    blocktime: 1602640631
+  }
+]
+
 module.exports = {
   mockUtxo,
   transactions,
   transactionVout,
   transactionVout2,
   mockTxHistory,
-  mockTxData
+  mockTxData,
+  mockNameTXData
 }
