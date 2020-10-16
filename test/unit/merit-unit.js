@@ -150,7 +150,7 @@ describe('#merit.js', () => {
       const addr = 'simpleledger:qrrh8reyhqgrw0ly884snn4llxgs44lkfcly2vlrsh'
 
       const merit = await uut.agMerit(addr)
-      console.log(`merit: ${merit}`)
+      // console.log(`merit: ${merit}`)
 
       assert.isNumber(merit)
     })
