@@ -57,10 +57,13 @@ describe('#merit', () => {
       const addr = 'simpleledger:qrrh8reyhqgrw0ly884snn4llxgs44lkfcly2vlrsh'
 
       const utxos = await uut.getTokenUtxos(addr)
-      console.log(`utxos: ${JSON.stringify(utxos, null, 2)}`)
+      // console.log(`utxos: ${JSON.stringify(utxos, null, 2)}`)
 
       const hydratedUtxos = await uut.calcMerit(utxos)
-      console.log(`hydratedUtxos: ${JSON.stringify(hydratedUtxos, null, 2)}`)
+      // console.log(`hydratedUtxos: ${JSON.stringify(hydratedUtxos, null, 2)}`)
+
+      assert.isArray(hydratedUtxos)
+      assert.property(hydratedUtxos[0], 'isValid')
     })
   })
 
@@ -69,7 +72,7 @@ describe('#merit', () => {
       const addr = 'simpleledger:qrrh8reyhqgrw0ly884snn4llxgs44lkfcly2vlrsh'
 
       const merit = await uut.agMerit(addr)
-      console.log(`merit: ${merit}`)
+      // console.log(`merit: ${merit}`)
 
       assert.isNumber(merit)
     })
