@@ -2,15 +2,16 @@
   "name": "bch-message-lib",
   "version": "1.0.0",
   "description": "An npm library for processing messages on the Bitcoin Cash blockchain using bch-js.",
-  "main": "index.js",
+  "main": "dist/bch-message-lib.min.js",
   "scripts": {
     "start": "node index.js",
     "test": "TEST=unit nyc mocha test/unit/",
-    "test:integration": "mocha --timeout 25000 -g '#findName' test/integration/",
+    "test:integration": "mocha --timeout 25000 test/integration/",
     "lint": "standard --env mocha --fix",
     "docs": "./node_modules/.bin/apidoc -i src/ -o docs",
     "coverage": "nyc report --reporter=text-lcov | coveralls",
-    "coverage:report": "nyc --reporter=html mocha test/unit/ --exit"
+    "coverage:report": "nyc --reporter=html mocha test/unit/ --exit",
+    "build": "browserify index.js -p tinyify --s BchMessage -o dist/bch-message-lib.min.js"
   },
   "keywords": [
     "bitcoin",
@@ -51,7 +52,8 @@
     "nyc": "^15.0.0",
     "semantic-release": "^17.0.0",
     "sinon": "^9.0.2",
-    "standard": "^14.3.1"
+    "standard": "^14.3.1",
+    "tinyify": "^3.0.0"
   },
   "release": {
     "publish": [
