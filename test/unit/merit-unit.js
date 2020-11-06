@@ -6,6 +6,7 @@
 const assert = require('chai').assert
 const sinon = require('sinon')
 const BCHJS = require('@psf/bch-js')
+const clonedeep = require('lodash.clonedeep')
 
 // Mocking data libraries.
 const mockDataLib = require('./mocks/merit-mocks')
@@ -22,9 +23,12 @@ describe('#merit.js', () => {
   beforeEach(() => {
     sandbox = sinon.createSandbox()
 
-    mockData = Object.assign({}, mockDataLib)
+    mockData = clonedeep(mockDataLib)
 
-    uut = new Merit()
+    const config = {
+      bchjs: new BCHJS()
+    }
+    uut = new Merit(config)
   })
 
   afterEach(() => sandbox.restore())
@@ -36,6 +40,17 @@ describe('#merit.js', () => {
 
       const testUut = new Merit(config)
       assert.property(testUut, 'bchjs')
+    })
+
+    it('should throw an error if not passed a bch-js instance', () => {
+      try {
+        const testUut = new Merit()
+
+        assert.fail('Unexpected result')
+        console.log('testUut: ', testUut)
+      } catch (err) {
+        assert.include(err.message, 'bch-js instance must be passed in the config object when instantiating.')
+      }
     })
   })
 

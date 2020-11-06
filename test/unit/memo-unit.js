@@ -6,6 +6,7 @@
 const chai = require('chai')
 const sinon = require('sinon')
 const BCHJS = require('@psf/bch-js')
+const clonedeep = require('lodash.clonedeep')
 
 // Locally global variables.
 const assert = chai.assert
@@ -16,7 +17,7 @@ let mockData
 
 // Unit under test
 const MemoLib = require('../../lib/memo')
-const uut = new MemoLib()
+let uut
 
 describe('#memo.js', () => {
   let sandbox
@@ -25,7 +26,12 @@ describe('#memo.js', () => {
   beforeEach(() => {
     sandbox = sinon.createSandbox()
 
-    mockData = Object.assign({}, mockDataLib)
+    mockData = clonedeep(mockDataLib)
+
+    const config = {
+      bchjs: new BCHJS()
+    }
+    uut = new MemoLib(config)
   })
 
   afterEach(() => sandbox.restore())
@@ -37,6 +43,17 @@ describe('#memo.js', () => {
 
       const testUut = new MemoLib(config)
       assert.property(testUut, 'bchjs')
+    })
+
+    it('should throw an error if not passed a bch-js instance', () => {
+      try {
+        const testUut = new MemoLib()
+
+        assert.fail('Unexpected result')
+        console.log('testUut: ', testUut)
+      } catch (err) {
+        assert.include(err.message, 'bch-js instance must be passed in the config object when instantiating.')
+      }
     })
   })
 

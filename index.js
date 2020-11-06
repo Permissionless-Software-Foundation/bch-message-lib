@@ -7,8 +7,6 @@
 
 'use strict'
 
-const BCHJS = require('@psf/bch-js')
-
 const MemoLib = require('./lib/memo')
 const memo = new MemoLib()
 
@@ -17,10 +15,14 @@ const merit = new MeritLib()
 
 class BoilplateLib {
   constructor (config) {
-    // Default to new instance of bch-js
-    this.bchjs = new BCHJS()
-    // Overwrite default if an instance of bch-js is passed in.
-    if (config && config.bchjs) this.bchjs = config.bchjs
+    if (!config || !config.bchjs) {
+      throw new Error(
+        'bch-js instance must be passed in the config object when instantiating.'
+      )
+    }
+
+    // This is an instance of bch-js.
+    this.bchjs = config.bchjs
 
     this.memo = memo
     this.merit = merit
