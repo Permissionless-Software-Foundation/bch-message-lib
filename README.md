@@ -1,7 +1,7 @@
 # bch-message-lib
 An npm library for processing messages on the Bitcoin Cash blockchain using bch-js.
 
-This is a utility library that does blockchain processing of messages on the Bitcoin Cash blockchain. These messages primarily use the [memo.cash protocol](https://memo.cash/protocol), and the end target for this library is the [message.fullstack.cash](https://message.fullstack.cash/) web app.
+This is a utility library that does processing of messages on the Bitcoin Cash blockchain. These messages primarily use the [memo.cash protocol](https://memo.cash/protocol), and the end target for this library is the [message.fullstack.cash](https://message.fullstack.cash/) web app.
 
 These are the primary features provided by this library:
 - Push a normal memo.cash message to the blockchain.
