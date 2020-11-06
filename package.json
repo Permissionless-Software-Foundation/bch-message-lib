@@ -34,11 +34,11 @@
   },
   "repository": "Permissionless-Software-Foundation/bch-message-lib",
   "dependencies": {
-    "@psf/bch-js": "^3.7.1",
-    "apidoc": "^0.23.0",
     "bch-util": "^1.2.1"
   },
   "devDependencies": {
+    "@psf/bch-js": "^3.8.8",
+    "apidoc": "^0.23.0",
     "chai": "^4.1.2",
     "coveralls": "^3.0.2",
     "eslint": "5.16.0",
