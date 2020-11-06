@@ -8,7 +8,7 @@ These are the primary features provided by this library:
 - Push an [PS001](https://github.com/Permissionless-Software-Foundation/specifications/blob/master/ps001-media-sharing.md) encrypt-msg message as a memo.cash message.
 - Retrieve the memo.cash name for a BCH address.
 - Retrieving message notifications and IPFS links from the blockchain that comply with [PS001](https://github.com/Permissionless-Software-Foundation/specifications/blob/master/ps001-media-sharing.md) specification.
-- Calculate the average coin age, merit, and PSF token balance for a BCH address.
+- Calculate  the average coin age, merit, and PSF token balance for a BCH address.
 
 
 # Licence
