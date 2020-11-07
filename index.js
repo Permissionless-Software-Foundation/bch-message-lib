@@ -8,12 +8,10 @@
 'use strict'
 
 const MemoLib = require('./lib/memo')
-const memo = new MemoLib()
 
 const MeritLib = require('./lib/merit')
-const merit = new MeritLib()
 
-class BoilplateLib {
+class BchMessage {
   constructor (config) {
     if (!config || !config.bchjs) {
       throw new Error(
@@ -24,9 +22,9 @@ class BoilplateLib {
     // This is an instance of bch-js.
     this.bchjs = config.bchjs
 
-    this.memo = memo
-    this.merit = merit
+    this.memo = new MemoLib(config)
+    this.merit = new MeritLib(config)
   }
 }
 
-module.exports = BoilplateLib
+module.exports = BchMessage
