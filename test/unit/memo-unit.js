@@ -248,6 +248,19 @@ describe('#memo.js', () => {
         assert.equal(true, false, 'Unexpected result!')
       }
     })
+    it('should return empty array if preface not found.', async () => {
+      try {
+        sandbox.stub(uut, 'getTransactions').resolves(mockData.mockTxData)
+
+        const bchAddr = 'bitcoincash:qpnty9t0w93fez04h7yzevujpv8pun204qv6yfuahk'
+        const result = await uut.readMsgSignal(bchAddr, 'Test Preface')
+
+        assert.isArray(result)
+        assert.equal(result.length, 0)
+      } catch (err) {
+        assert.equal(true, false, 'Unexpected result!')
+      }
+    })
 
     it('should return messages array.', async () => {
       try {
