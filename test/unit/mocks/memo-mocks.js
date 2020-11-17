@@ -118,6 +118,12 @@ const mockTxHistory = {
     }
   ]
 }
+// Object mock that has 100 transaction
+const mockTxHistoryBulk = {
+  success: true,
+  transactions: new Array(100).fill(mockTxHistory.transactions[0])
+
+}
 
 const mockTxData = [
   {
@@ -277,6 +283,8 @@ const mockTxData = [
       '0200000001f1a0262cbac144df8e9341efaf4ddab5a833e290b4f88cfef7262decdc96c4de020000006a473044022056cf684ebda4ca98393612fb9d2f6d577dfa984ad6a620891bfecca240cbefa902200dfa1931d705f337fd81e9f7209d91737fcb426ff6a98bdb07474ad1651967ad412103d581ba64c8f7b58fc0eec9697ad8de5fa7e3a8499fcacb2455a23283b40ca600ffffffff03d2240100000000001976a91492a16d521c56f201924a28e8f1d580952c6cf55188ac00000000000000004f6a026d024a4d5347204950465320516d4e676f427a4470423937563139617372546671696b6e5a416f373731356f5539446a366a706b6a663352327a2046697273742054657374204d65737361676522020000000000001976a9143b89d998586a141d3a7a2df16901354ce34687f488ac00000000'
   }
 ]
+// Array mock that has 20 transaction details
+const mockTxDataBulk = new Array(20).fill(mockTxData[0])
 
 const mockNameTXData = [
   {
@@ -473,6 +481,8 @@ module.exports = {
   transactionVout,
   transactionVout2,
   mockTxHistory,
+  mockTxHistoryBulk,
   mockTxData,
+  mockTxDataBulk,
   mockNameTXData
 }
