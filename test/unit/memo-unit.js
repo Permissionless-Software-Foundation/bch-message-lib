@@ -184,6 +184,47 @@ describe('#memo.js', () => {
       assert.property(result[0], 'txid')
       assert.property(result[0], 'vin')
       assert.property(result[0], 'time')
+      assert.equal(result.length, mockData.mockTxHistory.transactions.length)
+    })
+
+    it('should return the transaction details if numChunks is provided and tx history is large', async () => {
+      // Mock live network calls.
+      sandbox
+        .stub(uut.bchjs.Electrumx, 'transactions')
+        .resolves(mockData.mockTxHistoryBulk)
+      sandbox
+        .stub(uut.bchjs.RawTransactions, 'getRawTransaction')
+        .resolves(mockData.mockTxDataBulk)
+
+      const bchAddr = 'bitcoincash:qqacnkvctp4pg8f60gklz6gpx4xwx3587sh60ejs2j'
+      const result = await uut.getTransactions(bchAddr, 3)
+      // console.log(`result: ${JSON.stringify(result, null, 2)}`)
+
+      assert.isArray(result)
+      assert.property(result[0], 'txid')
+      assert.property(result[0], 'vin')
+      assert.property(result[0], 'time')
+      assert.equal(result.length, 60)
+    })
+
+    it('Should return all tx details if the number of transactions is less than limit specified by numChunks', async () => {
+      // Mock live network calls.
+      sandbox
+        .stub(uut.bchjs.Electrumx, 'transactions')
+        .resolves(mockData.mockTxHistory)
+      sandbox
+        .stub(uut.bchjs.RawTransactions, 'getRawTransaction')
+        .resolves(mockData.mockTxData)
+
+      const bchAddr = 'bitcoincash:qqacnkvctp4pg8f60gklz6gpx4xwx3587sh60ejs2j'
+      const result = await uut.getTransactions(bchAddr, 3)
+      // console.log(`result: ${JSON.stringify(result, null, 2)}`)
+
+      assert.isArray(result)
+      assert.property(result[0], 'txid')
+      assert.property(result[0], 'vin')
+      assert.property(result[0], 'time')
+      assert.equal(result.length, mockData.mockTxHistory.transactions.length)
     })
 
     it('should handle and throw errors', async () => {
@@ -195,7 +236,7 @@ describe('#memo.js', () => {
           .resolves(mockData.mockTxHistory)
 
         const bchAddr = 'bitcoincash:qqacnkvctp4pg8f60gklz6gpx4xwx3587sh60ejs2j'
-        await uut.getTransactions(bchAddr)
+        await uut.getTransactions(bchAddr, 10)
 
         assert.equal(true, false, 'Unexpected result')
       } catch (err) {
