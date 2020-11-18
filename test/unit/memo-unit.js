@@ -186,7 +186,8 @@ describe('#memo.js', () => {
       assert.property(result[0], 'time')
       assert.equal(result.length, mockData.mockTxHistory.transactions.length)
     })
-    it('should return the transaction details if numChunks is provided', async () => {
+
+    it('should return the transaction details if numChunks is provided and tx history is large', async () => {
       // Mock live network calls.
       sandbox
         .stub(uut.bchjs.Electrumx, 'transactions')
@@ -205,7 +206,8 @@ describe('#memo.js', () => {
       assert.property(result[0], 'time')
       assert.equal(result.length, 60)
     })
-    it('Should return all tx details if the number of transactions provided is superior than this', async () => {
+
+    it('Should return all tx details if the number of transactions is less than limit specified by numChunks', async () => {
       // Mock live network calls.
       sandbox
         .stub(uut.bchjs.Electrumx, 'transactions')
