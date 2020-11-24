@@ -79,5 +79,16 @@ describe('#memo.js', () => {
 
       assert.isString(result)
     })
+
+    it('Should search the tx history until it finds a name', async () => {
+      try {
+        const bchAddr = 'bitcoincash:qzjgc7cz99hyh98yp4y6z5j40uwnd78fw5lx2m4k9t'
+
+        const result = await uut.findName(bchAddr, 0)
+        console.log(`result: ${JSON.stringify(result, null, 2)}`)
+      } catch (err) {
+        console.log('Error: ', err)
+      }
+    })
   })
 })
