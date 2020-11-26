@@ -154,6 +154,23 @@ describe('#merit.js', () => {
       assert.property(hydratedUtxos[0], 'age')
       assert.property(hydratedUtxos[0], 'merit')
     })
+
+    it('should calculate merit accurately', async () => {
+      // Mock live network calls
+      sandbox.stub(uut.bchjs.Blockchain, 'getBlockCount').resolves(663242)
+
+      const hydratedUtxos = await uut.calcMerit(mockData.mockTokenUtxos)
+      // console.log(`hydratedUtxos: ${JSON.stringify(hydratedUtxos, null, 2)}`)
+
+      assert.equal(hydratedUtxos[0].age, 44.17)
+      assert.equal(hydratedUtxos[0].merit, 220)
+
+      assert.equal(hydratedUtxos[1].age, 44.15)
+      assert.equal(hydratedUtxos[1].merit, 132)
+
+      assert.equal(hydratedUtxos[2].age, 44.13)
+      assert.equal(hydratedUtxos[2].merit, 93)
+    })
   })
 
   describe('#agMerit', () => {
