@@ -260,6 +260,20 @@ describe('#memo.js', () => {
         )
       }
     })
+    it('should throw an error if numChunks provided is not a number.', async () => {
+      try {
+        const bchAddr = 'bitcoincash:qpnty9t0w93fez04h7yzevujpv8pun204qv6yfuahk'
+        await uut.readMsgSignal(bchAddr, 'MSG IPFS', 'one')
+
+        assert.equal(true, false, 'Unexpected result!')
+      } catch (err) {
+        // console.log(err)
+        assert.include(
+          err.message,
+          'numChunks must be a number.'
+        )
+      }
+    })
 
     it('should throw error if no transaction history could be found.', async () => {
       try {
@@ -334,6 +348,26 @@ describe('#memo.js', () => {
         assert.property(result[0], 'subject')
         assert.property(result[0], 'sender')
       } catch (err) {
+        assert.equal(true, false, 'Unexpected result!')
+      }
+    })
+    it('should return messages array if all inputs are provided', async () => {
+      try {
+        // Mock live network calls.
+        sandbox
+          .stub(uut.bchjs.Electrumx, 'transactions')
+          .resolves(mockData.mockTxHistoryBulk)
+        sandbox
+          .stub(uut.bchjs.RawTransactions, 'getRawTransaction')
+          .resolves(mockData.mockTxDataBulk)
+
+        const bchAddr = 'bitcoincash:qqacnkvctp4pg8f60gklz6gpx4xwx3587sh60ejs2j'
+        const result = await uut.readMsgSignal(bchAddr, 'MSG IPFS', 3)
+        // console.log(`result: ${JSON.stringify(result, null, 2)}`)
+
+        assert.isArray(result)
+      } catch (error) {
+        console.log(error)
         assert.equal(true, false, 'Unexpected result!')
       }
     })
