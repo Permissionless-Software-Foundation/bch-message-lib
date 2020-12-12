@@ -1,13 +1,19 @@
 /*
   Integration tests for the merit library.
+
+  To run these tests, send a PSF token to this address:
+  simpleledger:qz9l5w0fvp670a8r48apsv0xqek840320c90neac9g
 */
 
 // npm libraries
 const assert = require('chai').assert
 
+const BCHJS = require('@psf/bch-js')
+const bchjs = new BCHJS()
+
 // Unit under test
 const Merit = require('../../lib/merit')
-const uut = new Merit()
+const uut = new Merit({ bchjs })
 
 describe('#merit', () => {
   describe('#getTokenUtxos', () => {
@@ -15,7 +21,7 @@ describe('#merit', () => {
       const addr = 'simpleledger:qz9l5w0fvp670a8r48apsv0xqek840320c90neac9g'
 
       const utxos = await uut.getTokenUtxos(addr)
-      // console.log(`utxos: ${JSON.stringify(utxos, null, 2)}`)
+      console.log(`utxos: ${JSON.stringify(utxos, null, 2)}`)
 
       assert.isArray(utxos)
       assert.equal(
