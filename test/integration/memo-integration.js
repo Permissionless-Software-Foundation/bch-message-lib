@@ -12,7 +12,7 @@
 // npm libraries
 const chai = require('chai')
 const BCHJS = require('@psf/bch-js')
-const bchjs = new BCHJS({ restURL: 'https://free-main.fullstack.cash/v3/' })
+const bchjs = new BCHJS()
 
 // Locally global variables.
 const assert = chai.assert
@@ -60,7 +60,7 @@ describe('#memo.js', () => {
 
   describe('#readMsgSignal', () => {
     it('Should return messages array', async () => {
-      const bchAddr = 'bitcoincash:qqlktyx5djtd25nkqxmtm229ks4n0eaknsqtq36tgz'
+      const bchAddr = 'bitcoincash:qzjgc7cz99hyh98yp4y6z5j40uwnd78fw5lx2m4k9t'
       const result = await uut.readMsgSignal(bchAddr)
       // console.log(`result: ${JSON.stringify(result, null, 2)}`)
 
