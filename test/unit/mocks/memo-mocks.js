@@ -122,7 +122,6 @@ const mockTxHistory = {
 const mockTxHistoryBulk = {
   success: true,
   transactions: new Array(100).fill(mockTxHistory.transactions[0])
-
 }
 
 const mockTxData = [
@@ -475,6 +474,62 @@ const mockNameTXData = [
   }
 ]
 
+const mockIpfsUpdate = [
+  {
+    txid: '9d7f8cdd46db9a5a11599281246f34e2726db99f2191798599d767cd03e547dc',
+    hash: '9d7f8cdd46db9a5a11599281246f34e2726db99f2191798599d767cd03e547dc',
+    version: 2,
+    size: 264,
+    locktime: 0,
+    vin: [
+      {
+        txid:
+          '1be232201ac016e50e56107fd6810c2d5ee629da5150ac7a9572cafad8e2f285',
+        vout: 0,
+        scriptSig: {
+          asm:
+            '3045022100fe390524ecca07e3df4440aaaf50226ee0d2ec6b0afeae5e543c210b527b746902204cda8395aed450225e412c5f94688e5c4fd6f38b3e3a78017eb58ee8c85ee992[ALL|FORKID] 034d1536421dde39b6cb5b24ce6073214c6771094fd04ea3a49836c825f7a80321',
+          hex:
+            '483045022100fe390524ecca07e3df4440aaaf50226ee0d2ec6b0afeae5e543c210b527b746902204cda8395aed450225e412c5f94688e5c4fd6f38b3e3a78017eb58ee8c85ee9924121034d1536421dde39b6cb5b24ce6073214c6771094fd04ea3a49836c825f7a80321'
+        },
+        sequence: 4294967295
+      }
+    ],
+    vout: [
+      {
+        value: 0.00524555,
+        n: 0,
+        scriptPubKey: {
+          asm:
+            'OP_DUP OP_HASH160 4334759481cedcb1752059165d12d56207e9785e OP_EQUALVERIFY OP_CHECKSIG',
+          hex: '76a9144334759481cedcb1752059165d12d56207e9785e88ac',
+          reqSigs: 1,
+          type: 'pubkeyhash',
+          addresses: ['bitcoincash:qppngav5s88devt4ypv3vhgj643q06tctcx8fnzewp']
+        }
+      },
+      {
+        value: 0,
+        n: 1,
+        scriptPubKey: {
+          asm:
+            'OP_RETURN 621 495046532055504441544520516d58763778776e35454c6457777279795433567a7a6d7a695763316453377738585338425746566f6443336b75',
+          hex:
+            '6a026d023a495046532055504441544520516d58763778776e35454c6457777279795433567a7a6d7a695763316453377738585338425746566f6443336b75',
+          type: 'nulldata'
+        }
+      }
+    ],
+    hex:
+      '020000000185f2e2d8faca72957aac5051da29e65e2d0c81d67f10560ee516c01a2032e21b000000006b483045022100fe390524ecca07e3df4440aaaf50226ee0d2ec6b0afeae5e543c210b527b746902204cda8395aed450225e412c5f94688e5c4fd6f38b3e3a78017eb58ee8c85ee9924121034d1536421dde39b6cb5b24ce6073214c6771094fd04ea3a49836c825f7a80321ffffffff020b010800000000001976a9144334759481cedcb1752059165d12d56207e9785e88ac00000000000000003f6a026d023a495046532055504441544520516d58763778776e35454c6457777279795433567a7a6d7a695763316453377738585338425746566f6443336b7500000000',
+    blockhash:
+      '000000000000000000af8bae152e9bae74d361822d26a757d309b4ff9b4a64d9',
+    confirmations: 11017,
+    time: 1601435140,
+    blocktime: 1601435140
+  }
+]
+
 module.exports = {
   mockUtxo,
   transactions,
@@ -484,5 +539,6 @@ module.exports = {
   mockTxHistoryBulk,
   mockTxData,
   mockTxDataBulk,
-  mockNameTXData
+  mockNameTXData,
+  mockIpfsUpdate
 }

@@ -32,6 +32,22 @@ describe('#memo.js', () => {
     })
   })
 
+  describe('#memoRead', () => {
+    it('should return text written to the blockchain with memoPush()', async () => {
+      const addr = 'bitcoincash:qppngav5s88devt4ypv3vhgj643q06tctcx8fnzewp'
+
+      const result = await uut.memoRead(addr, 'IPFS UPDATE')
+      // console.log(`result: ${JSON.stringify(result, null, 2)}`)
+
+      assert.isArray(result)
+      assert.property(result[0], 'hash')
+      assert.property(result[0], 'subject')
+      assert.property(result[0], 'sender')
+      assert.property(result[0], 'txid')
+      assert.property(result[0], 'time')
+    })
+  })
+
   describe('#writeMsgSignal', () => {
     it('should return a hex transaction for writing data to the blockchain', async () => {
       const WIF = 'L2rVamh4TxbTaTZ7oX9pJyNNS2E9ZbkbKs8rjNxZGuq57J2caxY2'
