@@ -21,7 +21,7 @@ describe('#merit', () => {
       const addr = 'simpleledger:qz9l5w0fvp670a8r48apsv0xqek840320c90neac9g'
 
       const utxos = await uut.getTokenUtxos(addr)
-      console.log(`utxos: ${JSON.stringify(utxos, null, 2)}`)
+      // console.log(`utxos: ${JSON.stringify(utxos, null, 2)}`)
 
       assert.isArray(utxos)
       assert.equal(

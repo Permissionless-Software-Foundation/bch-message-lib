@@ -81,6 +81,98 @@ describe('#memo.js', () => {
     })
   })
 
+  describe('#memoRead', () => {
+    it('should throw an error if a bchAddr is not provided.', async () => {
+      try {
+        await uut.memoRead()
+
+        assert.equal(true, false, 'Unexpected result!')
+      } catch (err) {
+        // console.log(err)
+        assert.include(
+          err.message,
+          'bchAddr must be a string of a BCH address.'
+        )
+      }
+    })
+
+    it('should throw an error if numChunks provided is not a number.', async () => {
+      try {
+        const bchAddr = 'bitcoincash:qpnty9t0w93fez04h7yzevujpv8pun204qv6yfuahk'
+        await uut.memoRead(bchAddr, 'MSG IPFS', 'one')
+
+        assert.equal(true, false, 'Unexpected result!')
+      } catch (err) {
+        // console.log(err)
+        assert.include(
+          err.message,
+          'numChunks must be a number.'
+        )
+      }
+    })
+
+    it('should throw error if no transaction history could be found.', async () => {
+      try {
+        sandbox
+          .stub(uut, 'getTransactions')
+          .rejects(new Error('No transaction history could be found'))
+
+        const bchAddr = 'bitcoincash:qpnty9t0w93fez04h7yzevujpv8pun204qv6yfuahk'
+        await uut.memoRead(bchAddr)
+        assert.equal(true, false, 'Unexpected result!')
+      } catch (err) {
+        assert.include(err.message, 'No transaction history could be found')
+      }
+    })
+
+    it('should return empty array if messages not found.', async () => {
+      try {
+        sandbox.stub(uut, 'getTransactions').resolves([mockData.mockTxData[1]])
+
+        const bchAddr = 'bitcoincash:qpnty9t0w93fez04h7yzevujpv8pun204qv6yfuahk'
+        const result = await uut.memoRead(bchAddr)
+        // console.log('result: ', result)
+
+        assert.isArray(result)
+        assert.equal(result.length, 0)
+      } catch (err) {
+        assert.equal(true, false, 'Unexpected result!')
+      }
+    })
+
+    it('should return empty array if preface not found.', async () => {
+      try {
+        sandbox.stub(uut, 'getTransactions').resolves(mockData.mockTxData)
+
+        const bchAddr = 'bitcoincash:qpnty9t0w93fez04h7yzevujpv8pun204qv6yfuahk'
+        const result = await uut.memoRead(bchAddr, 'Test Preface')
+
+        assert.isArray(result)
+        assert.equal(result.length, 0)
+      } catch (err) {
+        assert.equal(true, false, 'Unexpected result!')
+      }
+    })
+
+    it('should return messages array.', async () => {
+      try {
+        sandbox.stub(uut, 'getTransactions').resolves(mockData.mockIpfsUpdate)
+
+        const bchAddr = 'bitcoincash:qppngav5s88devt4ypv3vhgj643q06tctcx8fnzewp'
+        const result = await uut.memoRead(bchAddr, 'IPFS UPDATE')
+        // console.log(`result: ${JSON.stringify(result, null, 2)}`)
+
+        assert.isArray(result)
+        assert.property(result[0], 'hash')
+        assert.property(result[0], 'subject')
+        assert.property(result[0], 'sender')
+        assert.property(result[0], 'txid')
+      } catch (err) {
+        assert.equal(true, false, 'Unexpected result!')
+      }
+    })
+  })
+
   describe('#writeMsgSignal', () => {
     it('should throw an error if a WIF is not provided.', async () => {
       try {
@@ -260,6 +352,7 @@ describe('#memo.js', () => {
         )
       }
     })
+
     it('should throw an error if numChunks provided is not a number.', async () => {
       try {
         const bchAddr = 'bitcoincash:qpnty9t0w93fez04h7yzevujpv8pun204qv6yfuahk'
@@ -303,6 +396,7 @@ describe('#memo.js', () => {
         assert.equal(true, false, 'Unexpected result!')
       }
     })
+
     it('should return empty array if preface not found.', async () => {
       try {
         sandbox.stub(uut, 'getTransactions').resolves(mockData.mockTxData)
@@ -351,6 +445,7 @@ describe('#memo.js', () => {
         assert.equal(true, false, 'Unexpected result!')
       }
     })
+
     it('should return messages array if all inputs are provided', async () => {
       try {
         // Mock live network calls.
