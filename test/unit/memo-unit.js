@@ -198,7 +198,7 @@ describe('#memo.js', () => {
       }
     })
 
-    it('should throw an error if a bch address is not provided.', async () => {
+    it('should throw an error if receivers is not provided.', async () => {
       try {
         const WIF = 'L2rVamh4TxbTaTZ7oX9pJyNNS2E9ZbkbKs8rjNxZGuq57J2caxY2'
         const ipfsHash = 'QmTfkCdUyU9enyFosTTjBjKgh4BabcCP6ARbPnPq5rTrfr'
@@ -207,7 +207,33 @@ describe('#memo.js', () => {
         assert.equal(true, false, 'Unexpected result!')
       } catch (err) {
         // console.log(err)
-        assert.include(err.message, 'toAddr must be a string of a BCH address')
+        assert.include(err.message, 'receivers must be an array of a BCH address.')
+      }
+    })
+    it('should throw an error if receivers is not an array.', async () => {
+      try {
+        const WIF = 'L2rVamh4TxbTaTZ7oX9pJyNNS2E9ZbkbKs8rjNxZGuq57J2caxY2'
+        const ipfsHash = 'QmTfkCdUyU9enyFosTTjBjKgh4BabcCP6ARbPnPq5rTrfr'
+        const receivers = 'bitcoincash:qpnty9t0w93fez04h7yzevujpv8pun204qv6yfuahk'
+        await uut.writeMsgSignal(WIF, ipfsHash, receivers)
+
+        assert.equal(true, false, 'Unexpected result!')
+      } catch (err) {
+        // console.log(err)
+        assert.include(err.message, 'receivers must be an array of a BCH address.')
+      }
+    })
+    it('should throw an error if receivers array is empty.', async () => {
+      try {
+        const WIF = 'L2rVamh4TxbTaTZ7oX9pJyNNS2E9ZbkbKs8rjNxZGuq57J2caxY2'
+        const ipfsHash = 'QmTfkCdUyU9enyFosTTjBjKgh4BabcCP6ARbPnPq5rTrfr'
+        const receivers = []
+        await uut.writeMsgSignal(WIF, ipfsHash, receivers)
+
+        assert.equal(true, false, 'Unexpected result!')
+      } catch (err) {
+        // console.log(err)
+        assert.include(err.message, 'receivers array cant be empty.')
       }
     })
 
@@ -215,8 +241,8 @@ describe('#memo.js', () => {
       try {
         const WIF = 'L2rVamh4TxbTaTZ7oX9pJyNNS2E9ZbkbKs8rjNxZGuq57J2caxY2'
         const ipfsHash = 'QmTfkCdUyU9enyFosTTjBjKgh4BabcCP6ARbPnPq5rTrfr'
-        const toAddr = 'bitcoincash:qpnty9t0w93fez04h7yzevujpv8pun204qv6yfuahk'
-        await uut.writeMsgSignal(WIF, ipfsHash, toAddr)
+        const receivers = ['bitcoincash:qpnty9t0w93fez04h7yzevujpv8pun204qv6yfuahk']
+        await uut.writeMsgSignal(WIF, ipfsHash, receivers)
 
         assert.equal(true, false, 'Unexpected result!')
       } catch (err) {
@@ -231,10 +257,10 @@ describe('#memo.js', () => {
 
         const WIF = 'L2rVamh4TxbTaTZ7oX9pJyNNS2E9ZbkbKs8rjNxZGuq57J2caxY2'
         const ipfsHash = 'QmTfkCdUyU9enyFosTTjBjKgh4BabcCP6ARbPnPq5rTrfr'
-        const toAddr = 'bitcoincash:qpnty9t0w93fez04h7yzevujpv8pun204qv6yfuahk'
+        const receivers = ['bitcoincash:qpnty9t0w93fez04h7yzevujpv8pun204qv6yfuahk']
         const subject = 'A message for you'
 
-        await uut.writeMsgSignal(WIF, ipfsHash, toAddr, subject)
+        await uut.writeMsgSignal(WIF, ipfsHash, receivers, subject)
 
         assert.equal(true, false, 'Unexpected result!')
       } catch (err) {
@@ -249,9 +275,9 @@ describe('#memo.js', () => {
 
       const WIF = 'L2rVamh4TxbTaTZ7oX9pJyNNS2E9ZbkbKs8rjNxZGuq57J2caxY2'
       const ipfsHash = 'QmT17Px3WcydqbZnKGUkKb5tWTM7Ypoz1UJ1MHWngC49xQ'
-      const toAddr = 'bitcoincash:qzxk8ecxm6drkcjtkrepesx5dd45fsvjauvxeeynfy'
+      const receivers = ['bitcoincash:qpnty9t0w93fez04h7yzevujpv8pun204qv6yfuahk']
       const subject = 'A message for you'
-      const result = await uut.writeMsgSignal(WIF, ipfsHash, toAddr, subject)
+      const result = await uut.writeMsgSignal(WIF, ipfsHash, receivers, subject)
       // console.log(`result: ${JSON.stringify(result, null, 2)}`)
 
       assert.isString(result)
