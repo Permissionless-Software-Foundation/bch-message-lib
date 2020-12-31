@@ -233,7 +233,7 @@ describe('#memo.js', () => {
         assert.equal(true, false, 'Unexpected result!')
       } catch (err) {
         // console.log(err)
-        assert.include(err.message, 'receivers array cant be empty.')
+        assert.include(err.message, 'receivers array can not be empty.')
       }
     })
 
