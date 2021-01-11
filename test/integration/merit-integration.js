@@ -65,7 +65,7 @@ describe('#merit', () => {
       const utxos = await uut.getTokenUtxos(addr)
       // console.log(`utxos: ${JSON.stringify(utxos, null, 2)}`)
 
-      const hydratedUtxos = await uut.calcMerit(utxos)
+      const hydratedUtxos = await uut.calcMerit(utxos, addr)
       // console.log(`hydratedUtxos: ${JSON.stringify(hydratedUtxos, null, 2)}`)
 
       assert.isArray(hydratedUtxos)
@@ -93,7 +93,10 @@ describe('#merit', () => {
       const parentUtxo = await uut.findTokenParent(txid, addr)
       // console.log(`parentUtxo: ${JSON.stringify(parentUtxo, null, 2)}`)
 
-      assert.equal(parentUtxo.tx_hash, 'b7b28a03575bae28c421306fe6727d26c8a6c109b03dfdd276e7bfe32d83e850')
+      assert.equal(
+        parentUtxo.tx_hash,
+        'b7b28a03575bae28c421306fe6727d26c8a6c109b03dfdd276e7bfe32d83e850'
+      )
       assert.equal(parentUtxo.isValid, true)
     })
   })
@@ -107,7 +110,10 @@ describe('#merit', () => {
       const parentUtxo = await uut.findTokenParent(txid, addr)
       // console.log(`parentUtxo: ${JSON.stringify(parentUtxo, null, 2)}`)
 
-      assert.equal(parentUtxo.tx_hash, 'a5f3e9a08b0f592040b7538d0bf95b646c9e416bec0f909f81da6518ba32928f')
+      assert.equal(
+        parentUtxo.tx_hash,
+        'a5f3e9a08b0f592040b7538d0bf95b646c9e416bec0f909f81da6518ba32928f'
+      )
       assert.equal(parentUtxo.isValid, true)
     })
   })
