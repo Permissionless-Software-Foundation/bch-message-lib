@@ -107,4 +107,24 @@ describe('#memo.js', () => {
       }
     })
   })
+  describe('#updateNegativeHeight', () => {
+    it('should update height', async () => {
+      try {
+        const txids = [
+          {
+            fee: 500,
+            height: -1,
+            tx_hash:
+              'd9e728b5ffb79af33cf3d3b8cc7bb85c6bb0817f85af5db64b65d995f90d057c'
+          }
+        ]
+        const result = await uut.updateNegativeHeight(txids)
+        assert.isArray(result)
+        assert.equal(result.length, txids.length)
+        assert.isTrue(result[0].height > 0)
+      } catch (err) {
+        assert.equal(true, false, 'Unexpected result!')
+      }
+    })
+  })
 })

@@ -294,6 +294,10 @@ describe('#memo.js', () => {
         .stub(uut.bchjs.RawTransactions, 'getRawTransaction')
         .resolves(mockData.mockTxData)
 
+      sandbox
+        .stub(uut.bchjs.Blockchain, 'getBlockCount')
+        .resolves(mockData.blockCount)
+
       const bchAddr = 'bitcoincash:qqacnkvctp4pg8f60gklz6gpx4xwx3587sh60ejs2j'
       const result = await uut.getTransactions(bchAddr)
       // console.log(`result: ${JSON.stringify(result, null, 2)}`)
@@ -313,6 +317,9 @@ describe('#memo.js', () => {
       sandbox
         .stub(uut.bchjs.RawTransactions, 'getRawTransaction')
         .resolves(mockData.mockTxDataBulk)
+      sandbox
+        .stub(uut.bchjs.Blockchain, 'getBlockCount')
+        .resolves(mockData.blockCount)
 
       const bchAddr = 'bitcoincash:qqacnkvctp4pg8f60gklz6gpx4xwx3587sh60ejs2j'
       const result = await uut.getTransactions(bchAddr, 3)
@@ -333,7 +340,9 @@ describe('#memo.js', () => {
       sandbox
         .stub(uut.bchjs.RawTransactions, 'getRawTransaction')
         .resolves(mockData.mockTxData)
-
+      sandbox
+        .stub(uut.bchjs.Blockchain, 'getBlockCount')
+        .resolves(mockData.blockCount)
       const bchAddr = 'bitcoincash:qqacnkvctp4pg8f60gklz6gpx4xwx3587sh60ejs2j'
       const result = await uut.getTransactions(bchAddr, 3)
       // console.log(`result: ${JSON.stringify(result, null, 2)}`)
@@ -481,7 +490,9 @@ describe('#memo.js', () => {
         sandbox
           .stub(uut.bchjs.RawTransactions, 'getRawTransaction')
           .resolves(mockData.mockTxDataBulk)
-
+        sandbox
+          .stub(uut.bchjs.Blockchain, 'getBlockCount')
+          .resolves(mockData.blockCount)
         const bchAddr = 'bitcoincash:qqacnkvctp4pg8f60gklz6gpx4xwx3587sh60ejs2j'
         const result = await uut.readMsgSignal(bchAddr, 'MSG IPFS', 3)
         // console.log(`result: ${JSON.stringify(result, null, 2)}`)
@@ -644,6 +655,54 @@ describe('#memo.js', () => {
 
         assert.isString(result)
       } catch (err) {
+        assert.equal(true, false, 'Unexpected result!')
+      }
+    })
+  })
+  describe('#updateNegativeHeight', () => {
+    it('should throw an error if a txids is not provided', async () => {
+      try {
+        await uut.updateNegativeHeight()
+        assert.equal(true, false, 'Unexpected result!')
+      } catch (err) {
+        // console.log(err)
+        assert.include(err.message, 'txids must be an array')
+      }
+    })
+
+    it('should throw an error if  txids  provided is not an array', async () => {
+      try {
+        const txids = 1
+        await uut.updateNegativeHeight(txids)
+        assert.equal(true, false, 'Unexpected result!')
+      } catch (err) {
+        // console.log(err)
+        assert.include(err.message, 'txids must be an array')
+      }
+    })
+    it('should handle an empty array', async () => {
+      try {
+        const txids = []
+        const result = await uut.updateNegativeHeight(txids)
+        assert.isArray(result)
+        assert.equal(result.length, 0)
+      } catch (err) {
+        assert.equal(true, false, 'Unexpected result!')
+      }
+    })
+    it('should update height', async () => {
+      try {
+        sandbox.stub(uut.bchjs.Blockchain, 'getBlockCount').resolves(mockData.blockCount)
+
+        const txids = mockData.mockTxHistory.transactions
+        const result = await uut.updateNegativeHeight(txids)
+        assert.isArray(result)
+        assert.equal(result.length, txids.length)
+        for (let i = 0; i < result.length; i++) {
+          assert.isTrue(result[i].height > 0)
+        }
+      } catch (err) {
+        console.log(err)
         assert.equal(true, false, 'Unexpected result!')
       }
     })

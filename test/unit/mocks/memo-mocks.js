@@ -101,6 +101,12 @@ const mockTxHistory = {
   success: true,
   transactions: [
     {
+      fee: 500,
+      height: -1,
+      tx_hash:
+        'd9e728b5ffb79af33cf3d3b8cc7bb85c6bb0817f85af5db64b65d995f90d057c'
+    },
+    {
       height: 657409,
       tx_hash:
         '5bac5e115650ed012144d4c0e6bc0d22c233334266cc563035e5276775b46349'
@@ -112,7 +118,7 @@ const mockTxHistory = {
     },
     {
       fee: 500,
-      height: -1,
+      height: 0,
       tx_hash:
         'd9e728b5ffb79af33cf3d3b8cc7bb85c6bb0817f85af5db64b65d995f90d057c'
     }
@@ -125,6 +131,60 @@ const mockTxHistoryBulk = {
 }
 
 const mockTxData = [
+  {
+    txid: '5bac5e115650ed012144d4c0e6bc0d22c233334266cc563035e5276775b46349',
+    hash: '5bac5e115650ed012144d4c0e6bc0d22c233334266cc563035e5276775b46349',
+    version: 2,
+    size: 226,
+    locktime: 0,
+    vin: [
+      {
+        txid:
+          '052c4d15ff6857b671f8d7dfb0f37618338022416df1e374ccc8a67e8dafb5e5',
+        vout: 0,
+        scriptSig: {
+          asm:
+            '30450221009b62ae22eb688bb6ec195c8a09c8d91790fb836251447027422ee26436813fdd022056dd46baf99e426376da84f786a9b5e507775e5fb7ac541fbd725c28f440e935[ALL|FORKID] 02991e32acae8315556cdf42e6ff932240e84c930fd924641c7a74a8e7b5af39b1',
+          hex:
+            '4830450221009b62ae22eb688bb6ec195c8a09c8d91790fb836251447027422ee26436813fdd022056dd46baf99e426376da84f786a9b5e507775e5fb7ac541fbd725c28f440e935412102991e32acae8315556cdf42e6ff932240e84c930fd924641c7a74a8e7b5af39b1'
+        },
+        sequence: 4294967295
+      }
+    ],
+    vout: [
+      {
+        value: 0.00002,
+        n: 0,
+        scriptPubKey: {
+          asm:
+            'OP_DUP OP_HASH160 3b89d998586a141d3a7a2df16901354ce34687f4 OP_EQUALVERIFY OP_CHECKSIG',
+          hex: '76a9143b89d998586a141d3a7a2df16901354ce34687f488ac',
+          reqSigs: 1,
+          type: 'pubkeyhash',
+          addresses: ['bitcoincash:qqacnkvctp4pg8f60gklz6gpx4xwx3587sh60ejs2j']
+        }
+      },
+      {
+        value: 0.00313221,
+        n: 1,
+        scriptPubKey: {
+          asm:
+            'OP_DUP OP_HASH160 773b0235194124a1636fd37bd1c67a5aba5ef477 OP_EQUALVERIFY OP_CHECKSIG',
+          hex: '76a914773b0235194124a1636fd37bd1c67a5aba5ef47788ac',
+          reqSigs: 1,
+          type: 'pubkeyhash',
+          addresses: ['bitcoincash:qpmnkq34r9qjfgtrdlfhh5wx0fdt5hh5wuxcpka43p']
+        }
+      }
+    ],
+    hex:
+      '0200000001e5b5af8d7ea6c8cc74e3f16d412280331876f3b0dfd7f871b65768ff154d2c05000000006b4830450221009b62ae22eb688bb6ec195c8a09c8d91790fb836251447027422ee26436813fdd022056dd46baf99e426376da84f786a9b5e507775e5fb7ac541fbd725c28f440e935412102991e32acae8315556cdf42e6ff932240e84c930fd924641c7a74a8e7b5af39b1ffffffff02d0070000000000001976a9143b89d998586a141d3a7a2df16901354ce34687f488ac85c70400000000001976a914773b0235194124a1636fd37bd1c67a5aba5ef47788ac00000000',
+    blockhash:
+      '0000000000000000010fd21d00c570b465a06eaaa74d1a6db485a356c33918d5',
+    confirmations: 1,
+    time: 1602869946,
+    blocktime: 1602869946
+  },
   {
     txid: '5bac5e115650ed012144d4c0e6bc0d22c233334266cc563035e5276775b46349',
     hash: '5bac5e115650ed012144d4c0e6bc0d22c233334266cc563035e5276775b46349',
@@ -529,6 +589,7 @@ const mockIpfsUpdate = [
     blocktime: 1601435140
   }
 ]
+const blockCount = 669895
 
 module.exports = {
   mockUtxo,
@@ -540,5 +601,6 @@ module.exports = {
   mockTxData,
   mockTxDataBulk,
   mockNameTXData,
-  mockIpfsUpdate
+  mockIpfsUpdate,
+  blockCount
 }
