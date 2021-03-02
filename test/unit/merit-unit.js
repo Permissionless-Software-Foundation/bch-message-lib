@@ -16,6 +16,9 @@ let mockData
 const Merit = require('../../lib/merit')
 let uut
 
+const PSF_TOKEN_ID =
+  '38e97c5d7d3585a2cbf3f9580c82ca33985f9cb0845d4dcce220cb709f9538b0'
+
 describe('#merit.js', () => {
   let sandbox
 
@@ -67,7 +70,7 @@ describe('#merit.js', () => {
 
       const addr = 'simpleledger:qz9l5w0fvp670a8r48apsv0xqek840320c90neac9g'
 
-      const utxos = await uut.getTokenUtxos(addr)
+      const utxos = await uut.getTokenUtxos(addr, PSF_TOKEN_ID, 100)
       // console.log(`utxos: ${JSON.stringify(utxos, null, 2)}`)
 
       assert.isArray(utxos)
@@ -75,6 +78,37 @@ describe('#merit.js', () => {
         utxos[0].tokenId,
         '38e97c5d7d3585a2cbf3f9580c82ca33985f9cb0845d4dcce220cb709f9538b0'
       )
+    })
+
+    it('should return token UTXOs for an SLP address if delay is not specified', async () => {
+      // Mock live network calls.
+      sandbox.stub(uut.bchjs.Electrumx, 'utxo').resolves(mockData.mockUtxos)
+      sandbox
+        .stub(uut.bchjs.SLP.Utils, 'hydrateUtxos')
+        .resolves(mockData.mockHydratedUtxos)
+
+      const addr = 'simpleledger:qz9l5w0fvp670a8r48apsv0xqek840320c90neac9g'
+
+      const utxos = await uut.getTokenUtxos(addr, PSF_TOKEN_ID)
+      // console.log(`utxos: ${JSON.stringify(utxos, null, 2)}`)
+
+      assert.isArray(utxos)
+      assert.equal(
+        utxos[0].tokenId,
+        '38e97c5d7d3585a2cbf3f9580c82ca33985f9cb0845d4dcce220cb709f9538b0'
+      )
+    })
+
+    it('should throw an error if tokenId is not specified.', async () => {
+      try {
+        const addr = 'simpleledger:qz9l5w0fvp670a8r48apsv0xqek840320c90neac9g'
+
+        await uut.getTokenUtxos(addr)
+
+        assert.equal(true, false, 'Unexpected result')
+      } catch (err) {
+        assert.include(err.message, 'tokenId must be specified!')
+      }
     })
 
     it('should handle errors', async () => {
@@ -86,7 +120,7 @@ describe('#merit.js', () => {
 
         const addr = 'simpleledger:qz9l5w0fvp670a8r48apsv0xqek840320c90neac9g'
 
-        await uut.getTokenUtxos(addr)
+        await uut.getTokenUtxos(addr, PSF_TOKEN_ID)
 
         assert.equal(true, false, 'Unexpected result')
       } catch (err) {
@@ -192,6 +226,30 @@ describe('#merit.js', () => {
   })
 
   describe('#agMerit', () => {
+    it('should throw an error if address is not specified', async () => {
+      try {
+        await uut.agMerit()
+
+        assert.equal(true, false, 'Unexpected result')
+      } catch (err) {
+        // console.log(err)
+        assert.include(err.message, 'an address must be specified!')
+      }
+    })
+
+    it('should throw an error if token ID is not specified', async () => {
+      try {
+        const addr = 'simpleledger:qrrh8reyhqgrw0ly884snn4llxgs44lkfcly2vlrsh'
+
+        await uut.agMerit(addr)
+
+        assert.equal(true, false, 'Unexpected result')
+      } catch (err) {
+        // console.log(err)
+        assert.include(err.message, 'tokenId must be specified!')
+      }
+    })
+
     it('should aggregate merit across multiple UTXOs', async () => {
       // Mock live network calls.
       sandbox.stub(uut, 'getTokenUtxos').resolves(mockData.mockHydratedUtxos)
@@ -199,7 +257,7 @@ describe('#merit.js', () => {
 
       const addr = 'simpleledger:qrrh8reyhqgrw0ly884snn4llxgs44lkfcly2vlrsh'
 
-      const merit = await uut.agMerit(addr)
+      const merit = await uut.agMerit(addr, PSF_TOKEN_ID)
       // console.log(`merit: ${merit}`)
 
       assert.isNumber(merit)
@@ -210,7 +268,7 @@ describe('#merit.js', () => {
         // Force an error.
         sandbox.stub(uut, 'getTokenUtxos').rejects(new Error('test error'))
 
-        await uut.agMerit()
+        await uut.agMerit('test', PSF_TOKEN_ID)
 
         assert.equal(true, false, 'Unexpected result')
       } catch (err) {

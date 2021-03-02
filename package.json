@@ -34,11 +34,9 @@
     "url": "localhost:5000"
   },
   "repository": "Permissionless-Software-Foundation/bch-message-lib",
-  "dependencies": {
-    "bch-util": "^1.2.5"
-  },
+  "dependencies": {},
   "devDependencies": {
-    "@psf/bch-js": "^4.5.4",
+    "@psf/bch-js": "^4.15.21",
     "apidoc": "^0.23.0",
     "chai": "^4.1.2",
     "coveralls": "^3.0.2",
@@ -52,7 +50,7 @@
     "lodash.clonedeep": "^4.5.0",
     "mocha": "^7.0.1",
     "nyc": "^15.0.0",
-    "semantic-release": "^17.3.1",
+    "semantic-release": "^17.4.0",
     "sinon": "^9.0.2",
     "standard": "^14.3.1",
     "tinyify": "^3.0.0"
