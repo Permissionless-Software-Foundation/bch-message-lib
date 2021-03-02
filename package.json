@@ -34,9 +34,7 @@
     "url": "localhost:5000"
   },
   "repository": "Permissionless-Software-Foundation/bch-message-lib",
-  "dependencies": {
-    "bch-util": "^1.2.5"
-  },
+  "dependencies": {},
   "devDependencies": {
     "@psf/bch-js": "^4.15.19",
     "apidoc": "^0.23.0",

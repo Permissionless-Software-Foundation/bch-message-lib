@@ -23,8 +23,9 @@ const msgLib = new MsgLib({ bchjs })
 
 async function start() {
   const addr = 'simpleledger:qrnn49rx0p4xh78tts79utf0zv26vyru6vvs577rn0'
+  const tokenId = '38e97c5d7d3585a2cbf3f9580c82ca33985f9cb0845d4dcce220cb709f9538b0'
 
-  merit = await msgLib.merit.agMerit(addr)
+  merit = await msgLib.merit.agMerit(addr, tokenId)
   console.log('merit: ', merit)
 }
 start()

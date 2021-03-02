@@ -15,12 +15,15 @@ const bchjs = new BCHJS()
 const Merit = require('../../lib/merit')
 const uut = new Merit({ bchjs })
 
+const PSF_TOKEN_ID =
+  '38e97c5d7d3585a2cbf3f9580c82ca33985f9cb0845d4dcce220cb709f9538b0'
+
 describe('#merit', () => {
   describe('#getTokenUtxos', () => {
     it('should return token UTXOs for an SLP address', async () => {
       const addr = 'simpleledger:qz9l5w0fvp670a8r48apsv0xqek840320c90neac9g'
 
-      const utxos = await uut.getTokenUtxos(addr)
+      const utxos = await uut.getTokenUtxos(addr, PSF_TOKEN_ID)
       // console.log(`utxos: ${JSON.stringify(utxos, null, 2)}`)
 
       assert.isArray(utxos)
@@ -33,7 +36,7 @@ describe('#merit', () => {
     it('should return token UTXOs for a BCH address', async () => {
       const addr = 'bitcoincash:qz9l5w0fvp670a8r48apsv0xqek840320cf5czgcmk'
 
-      const utxos = await uut.getTokenUtxos(addr)
+      const utxos = await uut.getTokenUtxos(addr, PSF_TOKEN_ID)
       // console.log(`utxos: ${JSON.stringify(utxos, null, 2)}`)
 
       assert.isArray(utxos)
@@ -48,7 +51,7 @@ describe('#merit', () => {
     it('should return the PSF tokens held by an address', async () => {
       const addr = 'simpleledger:qrrh8reyhqgrw0ly884snn4llxgs44lkfcly2vlrsh'
 
-      const utxos = await uut.getTokenUtxos(addr)
+      const utxos = await uut.getTokenUtxos(addr, PSF_TOKEN_ID)
       // console.log(`utxos: ${JSON.stringify(utxos, null, 2)}`)
 
       const tokenQty = uut.getTokenQuantity(utxos)
@@ -62,7 +65,7 @@ describe('#merit', () => {
     it('should calculate age and merit', async () => {
       const addr = 'simpleledger:qrrh8reyhqgrw0ly884snn4llxgs44lkfcly2vlrsh'
 
-      const utxos = await uut.getTokenUtxos(addr)
+      const utxos = await uut.getTokenUtxos(addr, PSF_TOKEN_ID)
       // console.log(`utxos: ${JSON.stringify(utxos, null, 2)}`)
 
       const hydratedUtxos = await uut.calcMerit(utxos, addr)
@@ -77,7 +80,7 @@ describe('#merit', () => {
     it('should aggregate merit across multiple UTXOs', async () => {
       const addr = 'simpleledger:qrrh8reyhqgrw0ly884snn4llxgs44lkfcly2vlrsh'
 
-      const merit = await uut.agMerit(addr)
+      const merit = await uut.agMerit(addr, PSF_TOKEN_ID)
       // console.log(`merit: ${merit}`)
 
       assert.isNumber(merit)

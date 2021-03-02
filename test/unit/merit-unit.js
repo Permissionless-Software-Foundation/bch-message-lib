@@ -226,6 +226,30 @@ describe('#merit.js', () => {
   })
 
   describe('#agMerit', () => {
+    it('should throw an error if address is not specified', async () => {
+      try {
+        await uut.agMerit()
+
+        assert.equal(true, false, 'Unexpected result')
+      } catch (err) {
+        // console.log(err)
+        assert.include(err.message, 'an address must be specified!')
+      }
+    })
+
+    it('should throw an error if token ID is not specified', async () => {
+      try {
+        const addr = 'simpleledger:qrrh8reyhqgrw0ly884snn4llxgs44lkfcly2vlrsh'
+
+        await uut.agMerit(addr)
+
+        assert.equal(true, false, 'Unexpected result')
+      } catch (err) {
+        // console.log(err)
+        assert.include(err.message, 'tokenId must be specified!')
+      }
+    })
+
     it('should aggregate merit across multiple UTXOs', async () => {
       // Mock live network calls.
       sandbox.stub(uut, 'getTokenUtxos').resolves(mockData.mockHydratedUtxos)
@@ -233,7 +257,7 @@ describe('#merit.js', () => {
 
       const addr = 'simpleledger:qrrh8reyhqgrw0ly884snn4llxgs44lkfcly2vlrsh'
 
-      const merit = await uut.agMerit(addr)
+      const merit = await uut.agMerit(addr, PSF_TOKEN_ID)
       // console.log(`merit: ${merit}`)
 
       assert.isNumber(merit)
@@ -244,7 +268,7 @@ describe('#merit.js', () => {
         // Force an error.
         sandbox.stub(uut, 'getTokenUtxos').rejects(new Error('test error'))
 
-        await uut.agMerit()
+        await uut.agMerit('test', PSF_TOKEN_ID)
 
         assert.equal(true, false, 'Unexpected result')
       } catch (err) {
