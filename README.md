@@ -10,8 +10,25 @@ These are the primary features provided by this library:
 - Retrieving message notifications and IPFS links from the blockchain that comply with [PS001](https://github.com/Permissionless-Software-Foundation/specifications/blob/master/ps001-media-sharing.md) specification.
 - Calculate  the average coin age, merit, and PSF token balance for a BCH address.
 
+## Installation
+`npm install --save bch-message-lib`
+
+## Usage
+```
+const BCHJS = require('@psf/bch-js')
+const bchjs = new BCHJS()
+
+const MsgLib = require('bch-message-lib')
+const msgLib = new MsgLib({ bchjs })
+
+async function start() {
+  const addr = 'simpleledger:qrnn49rx0p4xh78tts79utf0zv26vyru6vvs577rn0'
+
+  merit = await msgLib.merit.agMerit(addr)
+  console.log('merit: ', merit)
+}
+start()
+```
 
 # Licence
 [MIT](LICENSE.md)
-
-t
