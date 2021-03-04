@@ -690,7 +690,23 @@ describe('#memo.js', () => {
         assert.equal(true, false, 'Unexpected result!')
       }
     })
-    it('should update height', async () => {
+    it('should return the input array if does no found unconfirmed transactions', async () => {
+      try {
+        sandbox.stub(uut.bchjs.Blockchain, 'getBlockCount').resolves(mockData.blockCount)
+
+        const txids = mockData.transactions
+        const result = await uut.updateNegativeHeight(txids)
+        assert.isArray(result)
+        assert.equal(result.length, txids.length)
+        for (let i = 0; i < result.length; i++) {
+          assert.equal(result[i].height, txids[i].height)
+        }
+      } catch (err) {
+        console.log(err)
+        assert.equal(true, false, 'Unexpected result!')
+      }
+    })
+    it('should update height for unconfirmed transactions with value - 1', async () => {
       try {
         sandbox.stub(uut.bchjs.Blockchain, 'getBlockCount').resolves(mockData.blockCount)
 
@@ -698,6 +714,42 @@ describe('#memo.js', () => {
         const result = await uut.updateNegativeHeight(txids)
         assert.isArray(result)
         assert.equal(result.length, txids.length)
+        for (let i = 0; i < result.length; i++) {
+          assert.isTrue(result[i].height > 0)
+        }
+      } catch (err) {
+        console.log(err)
+        assert.equal(true, false, 'Unexpected result!')
+      }
+    })
+    it('should update height for unconfirmed transactions with value 0', async () => {
+      try {
+        sandbox.stub(uut.bchjs.Blockchain, 'getBlockCount').resolves(mockData.blockCount)
+
+        const txids = mockData.mockTxHistory2.transactions
+        const result = await uut.updateNegativeHeight(txids)
+        assert.isArray(result)
+        assert.equal(result.length, txids.length)
+        for (let i = 0; i < result.length; i++) {
+          assert.isTrue(result[i].height > 0)
+        }
+      } catch (err) {
+        console.log(err)
+        assert.equal(true, false, 'Unexpected result!')
+      }
+    })
+    it('should update height for multiples unconfirmed transactions', async () => {
+      try {
+        sandbox.stub(uut.bchjs.Blockchain, 'getBlockCount').resolves(mockData.blockCount)
+
+        const txids = mockData.mockTxHistory.transactions
+        const txids2 = mockData.mockTxHistory2.transactions
+
+        const transactions = txids.concat(txids2)
+
+        const result = await uut.updateNegativeHeight(transactions)
+        assert.isArray(result)
+        assert.equal(result.length, transactions.length)
         for (let i = 0; i < result.length; i++) {
           assert.isTrue(result[i].height > 0)
         }
