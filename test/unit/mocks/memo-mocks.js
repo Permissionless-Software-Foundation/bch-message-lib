@@ -118,6 +118,34 @@ const mockTxHistory = {
     },
     {
       fee: 500,
+      height: 657409,
+      tx_hash:
+        'd9e728b5ffb79af33cf3d3b8cc7bb85c6bb0817f85af5db64b65d995f90d057c'
+    }
+  ]
+}
+
+const mockTxHistory2 = {
+  success: true,
+  transactions: [
+    {
+      fee: 500,
+      height: 657409,
+      tx_hash:
+        'd9e728b5ffb79af33cf3d3b8cc7bb85c6bb0817f85af5db64b65d995f90d057c'
+    },
+    {
+      height: 657409,
+      tx_hash:
+        '5bac5e115650ed012144d4c0e6bc0d22c233334266cc563035e5276775b46349'
+    },
+    {
+      height: 657409,
+      tx_hash:
+        '62037e426ff402f5632a89ba248000e91c7d5c1cf1a5f326d0538ab51d9309fc'
+    },
+    {
+      fee: 500,
       height: 0,
       tx_hash:
         'd9e728b5ffb79af33cf3d3b8cc7bb85c6bb0817f85af5db64b65d995f90d057c'
@@ -602,5 +630,6 @@ module.exports = {
   mockTxDataBulk,
   mockNameTXData,
   mockIpfsUpdate,
-  blockCount
+  blockCount,
+  mockTxHistory2
 }
