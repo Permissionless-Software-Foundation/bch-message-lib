@@ -76,7 +76,7 @@ describe('#memo.js', () => {
 
   describe('#readMsgSignal', () => {
     it('Should return messages array', async () => {
-      const bchAddr = 'bitcoincash:qzjgc7cz99hyh98yp4y6z5j40uwnd78fw5lx2m4k9t'
+      const bchAddr = 'bitcoincash:qzzchl3xlcmmctk36e8dla4ltpr3ef6dsyxm06e8l5'
       const result = await uut.readMsgSignal(bchAddr)
       // console.log(`result: ${JSON.stringify(result, null, 2)}`)
 
@@ -105,26 +105,6 @@ describe('#memo.js', () => {
         console.log(`result: ${JSON.stringify(result, null, 2)}`)
       } catch (err) {
         console.log('Error: ', err)
-      }
-    })
-  })
-  describe('#updateNegativeHeight', () => {
-    it('should update height', async () => {
-      try {
-        const txids = [
-          {
-            fee: 500,
-            height: -1,
-            tx_hash:
-              'd9e728b5ffb79af33cf3d3b8cc7bb85c6bb0817f85af5db64b65d995f90d057c'
-          }
-        ]
-        const result = await uut.updateNegativeHeight(txids)
-        assert.isArray(result)
-        assert.equal(result.length, txids.length)
-        assert.isTrue(result[0].height > 0)
-      } catch (err) {
-        assert.equal(true, false, 'Unexpected result!')
       }
     })
   })
