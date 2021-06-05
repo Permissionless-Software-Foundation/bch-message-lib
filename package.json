@@ -7,7 +7,7 @@
     "start": "node index.js",
     "test": "TEST=unit nyc mocha --timeout 25000 test/unit/",
     "test:integration": "mocha --timeout 25000 test/integration/",
-    "test:temp": "mocha --timeout 25000 -g '#readMsgSignal' test/integration/",
+    "test:temp": "mocha --timeout 25000 -g '#getParentAge' test/integration/",
     "lint": "standard --env mocha --fix",
     "docs": "./node_modules/.bin/apidoc -i src/ -o docs",
     "coverage": "nyc report --reporter=text-lcov | coveralls",
