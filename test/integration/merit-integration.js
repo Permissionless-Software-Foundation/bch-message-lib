@@ -119,5 +119,16 @@ describe('#merit', () => {
       )
       assert.equal(parentUtxo.isValid, true)
     })
+
+    it('should return oldest parent when multiple parents exist in a UTXO', async () => {
+      const addr = 'bitcoincash:qqf4yw03fevffd0yzhp2c88n06yzadhp4yzdlrp0dz'
+      const txid =
+        '78f8d849032dd34a3f86fa87e7eeb7ccb5c07794bd910d5b9fab29d7706c3b3d'
+
+      const parentUtxo = await uut.findTokenParent(txid, addr)
+      // console.log(`parentUtxo: ${JSON.stringify(parentUtxo, null, 2)}`)
+
+      assert.equal(parentUtxo.height, 677476)
+    })
   })
 })

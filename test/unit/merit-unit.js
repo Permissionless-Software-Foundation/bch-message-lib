@@ -305,6 +305,46 @@ describe('#merit.js', () => {
       assert.equal(parentUtxo.isValid, true)
     })
 
+    it('should get the *older* parent of a token UTXO', async () => {
+      // Add mock data to force desired code path.
+      mockData.mockTxHistory.transactions.push({
+        height: 663000,
+        tx_hash:
+          'a5f3e9a08b0f592040b7538d0bf95b646c9e416bec0f909f81da6518ba32928f'
+      })
+      mockData.mockParentUtxo2.height = 663000
+      mockData.mockTxInputs.vin[1].txid =
+        'a5f3e9a08b0f592040b7538d0bf95b646c9e416bec0f909f81da6518ba32928f'
+
+      // Mock network calls.
+      sandbox
+        .stub(uut.bchjs.RawTransactions, 'getRawTransaction')
+        .resolves(mockData.mockTxInputs)
+      sandbox
+        .stub(uut.bchjs.Electrumx, 'transactions')
+        .resolves(mockData.mockTxHistory)
+      sandbox
+        .stub(uut.bchjs.SLP.Utils, 'hydrateUtxos')
+        .onCall(0)
+        .resolves(mockData.mockParentUtxo1)
+        .onCall(1)
+        .resolves({ slpUtxos: [{ utxos: [mockData.mockParentUtxo2] }] })
+
+      const addr = 'bitcoincash:qzjgc7cz99hyh98yp4y6z5j40uwnd78fw5lx2m4k9t'
+      const txid =
+        '548198c66640b14c4c175ba5f88d73c63b00f65bc3adc3ea2e94fc41919c6c75'
+
+      const parentUtxo = await uut.findTokenParent(txid, addr)
+      // console.log(`parentUtxo: ${JSON.stringify(parentUtxo, null, 2)}`)
+
+      assert.equal(
+        parentUtxo.tx_hash,
+        'a5f3e9a08b0f592040b7538d0bf95b646c9e416bec0f909f81da6518ba32928f'
+      )
+      assert.equal(parentUtxo.height, 663000)
+      assert.equal(parentUtxo.isValid, true)
+    })
+
     it('should handle errors', async () => {
       try {
         // Force an error.
