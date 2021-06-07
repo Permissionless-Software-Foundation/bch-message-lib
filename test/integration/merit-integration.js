@@ -105,28 +105,30 @@ describe('#merit', () => {
   })
 
   describe('#getParentAge', () => {
-    // it('should get the age of the oldest parent', async () => {
-    //   const addr = 'bitcoincash:qqlrzp23w08434twmvr4fxw672whkjy0py26r63g3d'
-    //   const txid =
-    //     'b79a8c9522ad707275f1fcc7fcd07affe0a4c6dd4abb20d0dac8c7b3320f4002'
-    //
-    //   const parentUtxo = await uut.findTokenParent(txid, addr)
-    //   // console.log(`parentUtxo: ${JSON.stringify(parentUtxo, null, 2)}`)
-    //
-    //   assert.equal(
-    //     parentUtxo.tx_hash,
-    //     'a5f3e9a08b0f592040b7538d0bf95b646c9e416bec0f909f81da6518ba32928f'
-    //   )
-    //   assert.equal(parentUtxo.isValid, true)
-    // })
+    it('should get the age of the oldest parent', async () => {
+      const addr = 'bitcoincash:qqlrzp23w08434twmvr4fxw672whkjy0py26r63g3d'
+      const txid =
+        'b79a8c9522ad707275f1fcc7fcd07affe0a4c6dd4abb20d0dac8c7b3320f4002'
 
-    it('should evaluate tricky TX', async () => {
+      const parentUtxo = await uut.findTokenParent(txid, addr)
+      // console.log(`parentUtxo: ${JSON.stringify(parentUtxo, null, 2)}`)
+
+      assert.equal(
+        parentUtxo.tx_hash,
+        'a5f3e9a08b0f592040b7538d0bf95b646c9e416bec0f909f81da6518ba32928f'
+      )
+      assert.equal(parentUtxo.isValid, true)
+    })
+
+    it('should return oldest parent when multiple parents exist in a UTXO', async () => {
       const addr = 'bitcoincash:qqf4yw03fevffd0yzhp2c88n06yzadhp4yzdlrp0dz'
       const txid =
         '78f8d849032dd34a3f86fa87e7eeb7ccb5c07794bd910d5b9fab29d7706c3b3d'
 
       const parentUtxo = await uut.findTokenParent(txid, addr)
-      console.log(`parentUtxo: ${JSON.stringify(parentUtxo, null, 2)}`)
+      // console.log(`parentUtxo: ${JSON.stringify(parentUtxo, null, 2)}`)
+
+      assert.equal(parentUtxo.height, 677476)
     })
   })
 })
