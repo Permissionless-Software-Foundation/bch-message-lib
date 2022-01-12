@@ -16,21 +16,21 @@ const bchjs = new BCHJS()
 
 // Locally global variables.
 const assert = chai.assert
-const WIF = 'L2rVamh4TxbTaTZ7oX9pJyNNS2E9ZbkbKs8rjNxZGuq57J2caxY2'
+// const WIF = 'L2rVamh4TxbTaTZ7oX9pJyNNS2E9ZbkbKs8rjNxZGuq57J2caxY2'
 
 // Unit under test
 const MemoLib = require('../../lib/memo')
 const uut = new MemoLib({ bchjs })
 
 describe('#memo.js', () => {
-  describe('#memoPush', () => {
-    it('should return a hex transaction for writing data to the blockchain', async () => {
-      const result = await uut.memoPush('test', WIF)
-      // console.log(`result: ${JSON.stringify(result, null, 2)}`)
-
-      assert.isString(result)
-    })
-  })
+  // describe('#memoPush', () => {
+  //   it('should return a hex transaction for writing data to the blockchain', async () => {
+  //     const result = await uut.memoPush('test', WIF)
+  //     // console.log(`result: ${JSON.stringify(result, null, 2)}`)
+  //
+  //     assert.isString(result)
+  //   })
+  // })
 
   describe('#memoRead', () => {
     it('should return text written to the blockchain with memoPush()', async () => {
@@ -48,21 +48,23 @@ describe('#memo.js', () => {
     })
   })
 
-  describe('#writeMsgSignal', () => {
-    it('should return a hex transaction for writing data to the blockchain', async () => {
-      const WIF = 'L2rVamh4TxbTaTZ7oX9pJyNNS2E9ZbkbKs8rjNxZGuq57J2caxY2'
-      const ipfsHash = 'QmT17Px3WcydqbZnKGUkKb5tWTM7Ypoz1UJ1MHWngC49xQ'
-      const receivers = ['bitcoincash:qzxk8ecxm6drkcjtkrepesx5dd45fsvjauvxeeynfy']
-      const subject = 'A message for you'
-      const result = await uut.writeMsgSignal(WIF, ipfsHash, receivers, subject)
-      // console.log(`result: ${JSON.stringify(result, null, 2)}`)
-
-      assert.isString(result)
-    })
-  })
+  // describe('#writeMsgSignal', () => {
+  //   it('should return a hex transaction for writing data to the blockchain', async () => {
+  //     const WIF = 'L2rVamh4TxbTaTZ7oX9pJyNNS2E9ZbkbKs8rjNxZGuq57J2caxY2'
+  //     const ipfsHash = 'QmT17Px3WcydqbZnKGUkKb5tWTM7Ypoz1UJ1MHWngC49xQ'
+  //     const receivers = [
+  //       'bitcoincash:qzxk8ecxm6drkcjtkrepesx5dd45fsvjauvxeeynfy'
+  //     ]
+  //     const subject = 'A message for you'
+  //     const result = await uut.writeMsgSignal(WIF, ipfsHash, receivers, subject)
+  //     // console.log(`result: ${JSON.stringify(result, null, 2)}`)
+  //
+  //     assert.isString(result)
+  //   })
+  // })
 
   describe('#getTransactions', () => {
-    it('Should return an array of tx data', async () => {
+    it('Should return an array of tx data using web 2', async () => {
       const bchAddr = 'bitcoincash:qqlktyx5djtd25nkqxmtm229ks4n0eaknsqtq36tgz'
       const result = await uut.getTransactions(bchAddr)
       // console.log(`result: ${JSON.stringify(result, null, 2)}`)
