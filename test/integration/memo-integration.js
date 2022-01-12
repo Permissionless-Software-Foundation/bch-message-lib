@@ -76,6 +76,19 @@ describe('#memo.js', () => {
     })
   })
 
+  describe('#getTransactions2', () => {
+    it('Should return an array of tx data using web 2', async () => {
+      const bchAddr = 'bitcoincash:qqlktyx5djtd25nkqxmtm229ks4n0eaknsqtq36tgz'
+      const result = await uut.getTransactions2(bchAddr)
+      // console.log(`result: ${JSON.stringify(result, null, 2)}`)
+
+      assert.isArray(result)
+      assert.property(result[0], 'txid')
+      assert.property(result[0], 'vin')
+      assert.property(result[0], 'time')
+    })
+  })
+
   describe('#readMsgSignal', () => {
     it('Should return messages array', async () => {
       const bchAddr = 'bitcoincash:qzzchl3xlcmmctk36e8dla4ltpr3ef6dsyxm06e8l5'

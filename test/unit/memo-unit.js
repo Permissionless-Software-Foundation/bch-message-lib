@@ -52,7 +52,10 @@ describe('#memo.js', () => {
         assert.fail('Unexpected result')
         console.log('testUut: ', testUut)
       } catch (err) {
-        assert.include(err.message, 'bch-js instance must be passed in the config object when instantiating.')
+        assert.include(
+          err.message,
+          'bch-js instance must be passed in the config object when instantiating.'
+        )
       }
     })
   })
@@ -104,10 +107,7 @@ describe('#memo.js', () => {
         assert.equal(true, false, 'Unexpected result!')
       } catch (err) {
         // console.log(err)
-        assert.include(
-          err.message,
-          'numChunks must be a number.'
-        )
+        assert.include(err.message, 'numChunks must be a number.')
       }
     })
 
@@ -207,20 +207,27 @@ describe('#memo.js', () => {
         assert.equal(true, false, 'Unexpected result!')
       } catch (err) {
         // console.log(err)
-        assert.include(err.message, 'receivers must be an array of a BCH address.')
+        assert.include(
+          err.message,
+          'receivers must be an array of a BCH address.'
+        )
       }
     })
     it('should throw an error if receivers is not an array.', async () => {
       try {
         const WIF = 'L2rVamh4TxbTaTZ7oX9pJyNNS2E9ZbkbKs8rjNxZGuq57J2caxY2'
         const ipfsHash = 'QmTfkCdUyU9enyFosTTjBjKgh4BabcCP6ARbPnPq5rTrfr'
-        const receivers = 'bitcoincash:qpnty9t0w93fez04h7yzevujpv8pun204qv6yfuahk'
+        const receivers =
+          'bitcoincash:qpnty9t0w93fez04h7yzevujpv8pun204qv6yfuahk'
         await uut.writeMsgSignal(WIF, ipfsHash, receivers)
 
         assert.equal(true, false, 'Unexpected result!')
       } catch (err) {
         // console.log(err)
-        assert.include(err.message, 'receivers must be an array of a BCH address.')
+        assert.include(
+          err.message,
+          'receivers must be an array of a BCH address.'
+        )
       }
     })
     it('should throw an error if receivers array is empty.', async () => {
@@ -241,7 +248,9 @@ describe('#memo.js', () => {
       try {
         const WIF = 'L2rVamh4TxbTaTZ7oX9pJyNNS2E9ZbkbKs8rjNxZGuq57J2caxY2'
         const ipfsHash = 'QmTfkCdUyU9enyFosTTjBjKgh4BabcCP6ARbPnPq5rTrfr'
-        const receivers = ['bitcoincash:qpnty9t0w93fez04h7yzevujpv8pun204qv6yfuahk']
+        const receivers = [
+          'bitcoincash:qpnty9t0w93fez04h7yzevujpv8pun204qv6yfuahk'
+        ]
         await uut.writeMsgSignal(WIF, ipfsHash, receivers)
 
         assert.equal(true, false, 'Unexpected result!')
@@ -257,7 +266,9 @@ describe('#memo.js', () => {
 
         const WIF = 'L2rVamh4TxbTaTZ7oX9pJyNNS2E9ZbkbKs8rjNxZGuq57J2caxY2'
         const ipfsHash = 'QmTfkCdUyU9enyFosTTjBjKgh4BabcCP6ARbPnPq5rTrfr'
-        const receivers = ['bitcoincash:qpnty9t0w93fez04h7yzevujpv8pun204qv6yfuahk']
+        const receivers = [
+          'bitcoincash:qpnty9t0w93fez04h7yzevujpv8pun204qv6yfuahk'
+        ]
         const subject = 'A message for you'
 
         await uut.writeMsgSignal(WIF, ipfsHash, receivers, subject)
@@ -275,7 +286,9 @@ describe('#memo.js', () => {
 
       const WIF = 'L2rVamh4TxbTaTZ7oX9pJyNNS2E9ZbkbKs8rjNxZGuq57J2caxY2'
       const ipfsHash = 'QmT17Px3WcydqbZnKGUkKb5tWTM7Ypoz1UJ1MHWngC49xQ'
-      const receivers = ['bitcoincash:qpnty9t0w93fez04h7yzevujpv8pun204qv6yfuahk']
+      const receivers = [
+        'bitcoincash:qpnty9t0w93fez04h7yzevujpv8pun204qv6yfuahk'
+      ]
       const subject = 'A message for you'
       const result = await uut.writeMsgSignal(WIF, ipfsHash, receivers, subject)
       // console.log(`result: ${JSON.stringify(result, null, 2)}`)
@@ -290,6 +303,9 @@ describe('#memo.js', () => {
       sandbox
         .stub(uut.bchjs.Electrumx, 'transactions')
         .resolves(mockData.mockTxHistory)
+      sandbox
+        .stub(uut.bchjs.Electrumx, 'sortAllTxs')
+        .resolves(mockData.transactions)
       sandbox
         .stub(uut.bchjs.RawTransactions, 'getRawTransaction')
         .resolves(mockData.mockTxData)
@@ -315,6 +331,9 @@ describe('#memo.js', () => {
         .stub(uut.bchjs.Electrumx, 'transactions')
         .resolves(mockData.mockTxHistoryBulk)
       sandbox
+        .stub(uut.bchjs.Electrumx, 'sortAllTxs')
+        .resolves(mockData.largeTxAry)
+      sandbox
         .stub(uut.bchjs.RawTransactions, 'getRawTransaction')
         .resolves(mockData.mockTxDataBulk)
       sandbox
@@ -337,6 +356,9 @@ describe('#memo.js', () => {
       sandbox
         .stub(uut.bchjs.Electrumx, 'transactions')
         .resolves(mockData.mockTxHistory)
+      sandbox
+        .stub(uut.bchjs.Electrumx, 'sortAllTxs')
+        .resolves(mockData.transactions)
       sandbox
         .stub(uut.bchjs.RawTransactions, 'getRawTransaction')
         .resolves(mockData.mockTxData)
@@ -396,10 +418,7 @@ describe('#memo.js', () => {
         assert.equal(true, false, 'Unexpected result!')
       } catch (err) {
         // console.log(err)
-        assert.include(
-          err.message,
-          'numChunks must be a number.'
-        )
+        assert.include(err.message, 'numChunks must be a number.')
       }
     })
 
@@ -487,6 +506,9 @@ describe('#memo.js', () => {
         sandbox
           .stub(uut.bchjs.Electrumx, 'transactions')
           .resolves(mockData.mockTxHistoryBulk)
+        sandbox
+          .stub(uut.bchjs.Electrumx, 'sortAllTxs')
+          .resolves(mockData.transactions)
         sandbox
           .stub(uut.bchjs.RawTransactions, 'getRawTransaction')
           .resolves(mockData.mockTxDataBulk)
