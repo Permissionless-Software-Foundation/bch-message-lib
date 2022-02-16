@@ -5,8 +5,8 @@
   "main": "dist/bch-message-lib.min.js",
   "scripts": {
     "start": "node index.js",
-    "test": "TEST=unit nyc mocha --timeout 25000 test/unit/",
-    "test:integration": "mocha --timeout 25000 test/integration/",
+    "test": "TEST=unit nyc mocha --require debugging-aid/network --timeout 25000 test/unit/",
+    "test:integration": "mocha --require debugging-aid/network --timeout 25000 test/integration/",
     "test:temp": "mocha --timeout 25000 -g '#findTokenParent' test/unit/",
     "lint": "standard --env mocha --fix",
     "docs": "./node_modules/.bin/apidoc -i src/ -o docs",
@@ -35,11 +35,12 @@
   },
   "repository": "Permissionless-Software-Foundation/bch-message-lib",
   "devDependencies": {
-    "@psf/bch-js": "4.21.0",
+    "@psf/bch-js": "5.3.0",
     "apidoc": "0.25.0",
     "browserify": "17.0.0",
     "chai": "4.1.2",
     "coveralls": "3.0.2",
+    "debugging-aid": "0.5.3",
     "eslint": "7.17.0",
     "eslint-config-prettier": "7.1.0",
     "eslint-config-standard": "16.0.2",
@@ -68,7 +69,7 @@
       "pre-commit": "npm run lint && npm run build"
     }
   },
-  "dependencies": {
-    "bch-consumer": "1.0.5"
+  "peerDependencies": {
+    "minimal-slp-wallet": "../minimal-slp-wallet"
   }
 }

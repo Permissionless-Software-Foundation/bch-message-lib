@@ -299,20 +299,12 @@ describe('#memo.js', () => {
 
   describe('#getTransactions', () => {
     it('should get transaction details for an address', async () => {
-      // Mock live network calls.
       sandbox
-        .stub(uut.bchjs.Electrumx, 'transactions')
-        .resolves(mockData.mockTxHistory)
+        .stub(uut.bchConsumer.bch, 'getTxHistory')
+        .resolves(mockData.txList01)
       sandbox
-        .stub(uut.bchjs.Electrumx, 'sortAllTxs')
-        .resolves(mockData.transactions)
-      sandbox
-        .stub(uut.bchjs.RawTransactions, 'getRawTransaction')
-        .resolves(mockData.mockTxData)
-
-      sandbox
-        .stub(uut.bchjs.Blockchain, 'getBlockCount')
-        .resolves(mockData.blockCount)
+        .stub(uut.bchConsumer.bch, 'getTxData')
+        .resolves(mockData.txDataRunMock01)
 
       const bchAddr = 'bitcoincash:qqacnkvctp4pg8f60gklz6gpx4xwx3587sh60ejs2j'
       const result = await uut.getTransactions(bchAddr)
@@ -322,75 +314,23 @@ describe('#memo.js', () => {
       assert.property(result[0], 'txid')
       assert.property(result[0], 'vin')
       assert.property(result[0], 'time')
-      assert.equal(result.length, mockData.mockTxHistory.transactions.length)
-    })
-
-    it('should return the transaction details if numChunks is provided and tx history is large', async () => {
-      // Mock live network calls.
-      sandbox
-        .stub(uut.bchjs.Electrumx, 'transactions')
-        .resolves(mockData.mockTxHistoryBulk)
-      sandbox
-        .stub(uut.bchjs.Electrumx, 'sortAllTxs')
-        .resolves(mockData.largeTxAry)
-      sandbox
-        .stub(uut.bchjs.RawTransactions, 'getRawTransaction')
-        .resolves(mockData.mockTxDataBulk)
-      sandbox
-        .stub(uut.bchjs.Blockchain, 'getBlockCount')
-        .resolves(mockData.blockCount)
-
-      const bchAddr = 'bitcoincash:qqacnkvctp4pg8f60gklz6gpx4xwx3587sh60ejs2j'
-      const result = await uut.getTransactions(bchAddr, 3)
-      // console.log(`result: ${JSON.stringify(result, null, 2)}`)
-
-      assert.isArray(result)
-      assert.property(result[0], 'txid')
-      assert.property(result[0], 'vin')
-      assert.property(result[0], 'time')
-      assert.equal(result.length, 60)
-    })
-
-    it('Should return all tx details if the number of transactions is less than limit specified by numChunks', async () => {
-      // Mock live network calls.
-      sandbox
-        .stub(uut.bchjs.Electrumx, 'transactions')
-        .resolves(mockData.mockTxHistory)
-      sandbox
-        .stub(uut.bchjs.Electrumx, 'sortAllTxs')
-        .resolves(mockData.transactions)
-      sandbox
-        .stub(uut.bchjs.RawTransactions, 'getRawTransaction')
-        .resolves(mockData.mockTxData)
-      sandbox
-        .stub(uut.bchjs.Blockchain, 'getBlockCount')
-        .resolves(mockData.blockCount)
-      const bchAddr = 'bitcoincash:qqacnkvctp4pg8f60gklz6gpx4xwx3587sh60ejs2j'
-      const result = await uut.getTransactions(bchAddr, 3)
-      // console.log(`result: ${JSON.stringify(result, null, 2)}`)
-
-      assert.isArray(result)
-      assert.property(result[0], 'txid')
-      assert.property(result[0], 'vin')
-      assert.property(result[0], 'time')
-      assert.equal(result.length, mockData.mockTxHistory.transactions.length)
+      assert.equal(result.length, 1)
     })
 
     it('should handle and throw errors', async () => {
       try {
         // Force an error
-        mockData.mockTxHistory.success = false
         sandbox
-          .stub(uut.bchjs.Electrumx, 'transactions')
-          .resolves(mockData.mockTxHistory)
+          .stub(uut.bchConsumer.bch, 'getTxHistory')
+          .rejects(new Error('test error'))
 
         const bchAddr = 'bitcoincash:qqacnkvctp4pg8f60gklz6gpx4xwx3587sh60ejs2j'
-        await uut.getTransactions(bchAddr, 10)
+        await uut.getTransactions(bchAddr)
 
         assert.equal(true, false, 'Unexpected result')
       } catch (err) {
         // console.log(err)
-        assert.include(err.message, 'No transaction history could be found')
+        assert.include(err.message, 'test error')
       }
     })
   })
@@ -503,18 +443,8 @@ describe('#memo.js', () => {
     it('should return messages array if all inputs are provided', async () => {
       try {
         // Mock live network calls.
-        sandbox
-          .stub(uut.bchjs.Electrumx, 'transactions')
-          .resolves(mockData.mockTxHistoryBulk)
-        sandbox
-          .stub(uut.bchjs.Electrumx, 'sortAllTxs')
-          .resolves(mockData.transactions)
-        sandbox
-          .stub(uut.bchjs.RawTransactions, 'getRawTransaction')
-          .resolves(mockData.mockTxDataBulk)
-        sandbox
-          .stub(uut.bchjs.Blockchain, 'getBlockCount')
-          .resolves(mockData.blockCount)
+        sandbox.stub(uut, 'getTransactions').resolves(mockData.mockTxData)
+
         const bchAddr = 'bitcoincash:qqacnkvctp4pg8f60gklz6gpx4xwx3587sh60ejs2j'
         const result = await uut.readMsgSignal(bchAddr, 'MSG IPFS', 3)
         // console.log(`result: ${JSON.stringify(result, null, 2)}`)

@@ -1122,6 +1122,37 @@ const largeTxAry = [
   }
 ]
 
+const txList01 = {
+  address: 'bitcoincash:qqlktyx5djtd25nkqxmtm229ks4n0eaknsqtq36tgz',
+  txs: [
+    {
+      height: 657000,
+      tx_hash:
+        '0e3a3f12f7279cddac6176e0d567d061935dd1d2fe6f82e6db105ced91f202a1'
+    }
+  ],
+  status: 200,
+  success: true
+}
+
+const txDataRunMock01 = [
+  {
+    txid: '0e3a3f12f7279cddac6176e0d567d061935dd1d2fe6f82e6db105ced91f202a1',
+    hash: '0e3a3f12f7279cddac6176e0d567d061935dd1d2fe6f82e6db105ced91f202a1',
+    version: 2,
+    size: 305,
+    locktime: 0,
+    vin: [],
+    vout: [],
+    blockhash:
+      '000000000000000000ff1103e9cb9c8645a560fcf44c01d01b35e752dd867b57',
+    confirmations: 68039,
+    time: 1602624194,
+    blocktime: 1602624194,
+    isValidSlp: false
+  }
+]
+
 module.exports = {
   mockUtxo,
   transactions,
@@ -1135,5 +1166,7 @@ module.exports = {
   mockIpfsUpdate,
   blockCount,
   mockTxHistory2,
-  largeTxAry
+  largeTxAry,
+  txList01,
+  txDataRunMock01
 }
