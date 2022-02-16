@@ -1,12 +1,12 @@
 {
   "name": "bch-message-lib",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "An npm library for processing messages on the Bitcoin Cash blockchain using bch-js.",
   "main": "dist/bch-message-lib.min.js",
   "scripts": {
     "start": "node index.js",
     "test": "TEST=unit nyc mocha --require debugging-aid/network --timeout 25000 test/unit/",
-    "test:integration": "mocha --require debugging-aid/network --timeout 25000 test/integration/",
+    "test:integration": "mocha --timeout 25000 test/integration/",
     "test:temp": "mocha --timeout 25000 -g '#findTokenParent' test/unit/",
     "lint": "standard --env mocha --fix",
     "docs": "./node_modules/.bin/apidoc -i src/ -o docs",

@@ -65,6 +65,24 @@ const txid = await wallet.ar.sendTx(hex)
 console.log('txid: ', txid)
 ```
 
+### Read a PS001 message from the Blockchain
+
+```js
+const bchAddr = 'bitcoincash:qzzchl3xlcmmctk36e8dla4ltpr3ef6dsyxm06e8l5'
+const result = await uut.readMsgSignal(bchAddr)
+console.log(`result: ${JSON.stringify(result, null, 2)}`)
+```
+
+### Write a PS001 message from the Blockchain
+
+```js
+const recievers = ['bitcoincash:qrnn49rx0p4xh78tts79utf0zv26vyru6vqtl9trd3']
+
+const hex = await uut.writeMsgSignal('testCID', recievers, 'test subject')
+const txid = await wallet.ar.sendTx(hex)
+console.log(`txid: ${txid}`)
+```
+
 # Licence
 
 [MIT](LICENSE.md)
