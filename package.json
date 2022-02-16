@@ -1,11 +1,11 @@
 {
   "name": "bch-message-lib",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "An npm library for processing messages on the Bitcoin Cash blockchain using bch-js.",
   "main": "dist/bch-message-lib.min.js",
   "scripts": {
     "start": "node index.js",
-    "test": "TEST=unit nyc mocha --timeout 25000 test/unit/",
+    "test": "TEST=unit nyc mocha --require debugging-aid/network --timeout 25000 test/unit/",
     "test:integration": "mocha --timeout 25000 test/integration/",
     "test:temp": "mocha --timeout 25000 -g '#findTokenParent' test/unit/",
     "lint": "standard --env mocha --fix",
@@ -35,25 +35,26 @@
   },
   "repository": "Permissionless-Software-Foundation/bch-message-lib",
   "devDependencies": {
-    "@psf/bch-js": "^4.18.4",
-    "apidoc": "^0.23.0",
-    "browserify": "^17.0.0",
-    "chai": "^4.1.2",
-    "coveralls": "^3.0.2",
-    "eslint": "5.16.0",
-    "eslint-config-prettier": "^6.0.0",
-    "eslint-config-standard": "^14.1.0",
-    "eslint-plugin-node": "^11.1.0",
-    "eslint-plugin-prettier": "^3.1.0",
-    "eslint-plugin-standard": "^4.0.0",
-    "husky": "^4.3.0",
-    "lodash.clonedeep": "^4.5.0",
-    "mocha": "^7.0.1",
-    "nyc": "^15.0.0",
-    "semantic-release": "^17.4.3",
-    "sinon": "^9.0.2",
-    "standard": "^14.3.1",
-    "tinyify": "^3.0.0"
+    "@psf/bch-js": "5.3.0",
+    "apidoc": "0.25.0",
+    "browserify": "17.0.0",
+    "chai": "4.1.2",
+    "coveralls": "3.0.2",
+    "debugging-aid": "0.5.3",
+    "eslint": "7.17.0",
+    "eslint-config-prettier": "7.1.0",
+    "eslint-config-standard": "16.0.2",
+    "eslint-plugin-node": "11.1.0",
+    "eslint-plugin-prettier": "3.3.1",
+    "eslint-plugin-standard": "4.0.0",
+    "husky": "4.3.0",
+    "lodash.clonedeep": "4.5.0",
+    "mocha": "7.0.1",
+    "nyc": "15.0.0",
+    "semantic-release": "17.4.3",
+    "sinon": "9.0.2",
+    "standard": "14.3.1",
+    "tinyify": "3.0.0"
   },
   "release": {
     "publish": [
@@ -67,5 +68,8 @@
     "hooks": {
       "pre-commit": "npm run lint && npm run build"
     }
+  },
+  "peerDependencies": {
+    "minimal-slp-wallet": "../minimal-slp-wallet"
   }
 }

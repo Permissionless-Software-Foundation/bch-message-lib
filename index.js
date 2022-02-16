@@ -9,21 +9,19 @@
 
 const MemoLib = require('./lib/memo')
 
-const MeritLib = require('./lib/merit')
+// const MeritLib = require('./lib/merit')
 
 class BchMessage {
-  constructor (config) {
-    if (!config || !config.bchjs) {
+  constructor (config = {}) {
+    if (!config.wallet) {
       throw new Error(
-        'bch-js instance must be passed in the config object when instantiating.'
+        'minimal-slp-wallet instance must be passed in the config object when instantiating.'
       )
     }
-
-    // This is an instance of bch-js.
-    this.bchjs = config.bchjs
+    this.wallet = config.wallet
 
     this.memo = new MemoLib(config)
-    this.merit = new MeritLib(config)
+    // this.merit = new MeritLib(config)
   }
 }
 
