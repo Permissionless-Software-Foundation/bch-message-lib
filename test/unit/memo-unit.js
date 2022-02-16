@@ -165,6 +165,32 @@ describe('#memo.js', () => {
     })
   })
 
+  describe('#sortTxsByHeight', () => {
+    it('should sort the transactions', async () => {
+      try {
+        const transactions = mockData.transactions
+        const result = await uut.sortTxsByHeight(transactions)
+        assert.isArray(result)
+        assert.equal(result.length, transactions.length)
+      } catch (err) {
+        // console.log(err)
+        assert.equal(true, false, 'Unexpected result!')
+      }
+    })
+
+    it('should sort the transactions in descending order', async () => {
+      try {
+        const transactions = mockData.transactions
+        const result = await uut.sortTxsByHeight(transactions, 'DESCENDING')
+        assert.isArray(result)
+        assert.equal(result.length, transactions.length)
+      } catch (err) {
+        // console.log(err)
+        assert.equal(true, false, 'Unexpected result!')
+      }
+    })
+  })
+
   describe('#readMsgSignal', () => {
     it('should throw an error if a bchAddr is not provided.', async () => {
       try {
@@ -317,47 +343,48 @@ describe('#memo.js', () => {
       }
     })
 
-    it('should return messages array.', async () => {
+    it('should return unfiltered memo.cash messages', async () => {
       try {
-        sandbox.stub(uut, 'getTransactions').resolves(mockData.mockIpfsUpdate)
+        sandbox.stub(uut, 'getTransactions').resolves(mockData.txData03)
 
         const bchAddr = 'bitcoincash:qppngav5s88devt4ypv3vhgj643q06tctcx8fnzewp'
-        const result = await uut.memoRead(bchAddr, 'IPFS UPDATE')
+        const result = await uut.memoRead(bchAddr)
         // console.log(`result: ${JSON.stringify(result, null, 2)}`)
 
+        // Assert that the result is the size and shape expected.
         assert.isArray(result)
-        assert.property(result[0], 'hash')
+        assert.equal(result.length, 3)
+
         assert.property(result[0], 'subject')
         assert.property(result[0], 'sender')
         assert.property(result[0], 'txid')
+        assert.property(result[0], 'time')
       } catch (err) {
-        assert.equal(true, false, 'Unexpected result!')
-      }
-    })
-  })
-
-  describe('#sortTxsByHeight', () => {
-    it('should sort the transactions', async () => {
-      try {
-        const transactions = mockData.transactions
-        const result = await uut.sortTxsByHeight(transactions)
-        assert.isArray(result)
-        assert.equal(result.length, transactions.length)
-      } catch (err) {
-        // console.log(err)
-        assert.equal(true, false, 'Unexpected result!')
+        // console.log('err: ', err)
+        assert.fail('Unexpected result!')
       }
     })
 
-    it('should sort the transactions in descending order', async () => {
+    it('should return filtered memo.cash messages', async () => {
       try {
-        const transactions = mockData.transactions
-        const result = await uut.sortTxsByHeight(transactions, 'DESCENDING')
+        sandbox.stub(uut, 'getTransactions').resolves(mockData.txData03)
+
+        const bchAddr = 'bitcoincash:qppngav5s88devt4ypv3vhgj643q06tctcx8fnzewp'
+        const result = await uut.memoRead(bchAddr, 'TEST')
+        // console.log(`result: ${JSON.stringify(result, null, 2)}`)
+
+        // Assert that the result is the size and shape expected.
         assert.isArray(result)
-        assert.equal(result.length, transactions.length)
+        assert.equal(result.length, 1)
+
+        assert.property(result[0], 'preface')
+        assert.property(result[0], 'subject')
+        assert.property(result[0], 'sender')
+        assert.property(result[0], 'txid')
+        assert.property(result[0], 'time')
       } catch (err) {
-        // console.log(err)
-        assert.equal(true, false, 'Unexpected result!')
+        // console.log('err: ', err)
+        assert.fail('Unexpected result!')
       }
     })
   })
