@@ -96,7 +96,7 @@ describe('#memo.js', () => {
       const addr = 'bitcoincash:qz3s6t7x7040mc7yfm7e88lw0uutd444eujqejjhwr'
 
       const result = await uut.memoRead(addr)
-      // console.log(`result: ${JSON.stringify(result, null, 2)}`)
+      console.log(`result: ${JSON.stringify(result, null, 2)}`)
 
       assert.isArray(result)
 
@@ -114,7 +114,7 @@ describe('#memo.js', () => {
       const addr = 'bitcoincash:qz3s6t7x7040mc7yfm7e88lw0uutd444eujqejjhwr'
 
       const result = await uut.memoRead(addr, 'TEST')
-      // console.log(`result: ${JSON.stringify(result, null, 2)}`)
+      console.log(`result: ${JSON.stringify(result, null, 2)}`)
 
       assert.isArray(result)
 
@@ -126,6 +126,20 @@ describe('#memo.js', () => {
       assert.property(result[0], 'sender')
       assert.property(result[0], 'txid')
       assert.property(result[0], 'time')
+    })
+
+    it('should retrieve IPFS hash for a pointer address', async () => {
+      // Use web 3 infra.
+      wallet = new BchWallet(undefined, {
+        noUpdate: true,
+        interface: 'consumer-api'
+      })
+      uut = new MemoLib({ wallet })
+
+      const addr = 'bitcoincash:qppngav5s88devt4ypv3vhgj643q06tctcx8fnzewp'
+
+      const result = await uut.memoRead(addr, 'IPFS UPDATE')
+      console.log(`result: ${JSON.stringify(result, null, 2)}`)
     })
   })
 
