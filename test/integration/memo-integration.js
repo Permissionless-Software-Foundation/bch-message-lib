@@ -52,7 +52,7 @@ describe('#memo.js', () => {
 
       const bchAddr = 'bitcoincash:qqlktyx5djtd25nkqxmtm229ks4n0eaknsqtq36tgz'
       const result = await uut.getTransactions(bchAddr)
-      // console.log(`result: ${JSON.stringify(result, null, 2)}`)
+      console.log(`result: ${JSON.stringify(result, null, 2)}`)
 
       assert.isArray(result)
       assert.property(result[0], 'txid')
