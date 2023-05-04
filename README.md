@@ -28,8 +28,8 @@ Instantiate the library by first instantiating minimal-slp-wallet and passing th
 
 ```js
 // Import the libraries.
-const BchWallet = require('minimal-slp-wallet/index')
-const BchMsg = require('bch-message-lib/index')
+const BchWallet = require('minimal-slp-wallet')
+const BchMsg = require('bch-message-lib')
 
 // Instantiate the wallet.
 const wallet = new BchWallet(WIF)
