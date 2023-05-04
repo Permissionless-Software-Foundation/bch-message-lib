@@ -2,7 +2,8 @@
   "name": "bch-message-lib",
   "version": "2.0.0",
   "description": "An npm library for processing messages on the Bitcoin Cash blockchain using bch-js.",
-  "main": "dist/bch-message-lib.min.js",
+  "main": "./index.js",
+  "module": "dist/bch-message-lib.min.js",
   "scripts": {
     "start": "node index.js",
     "test": "TEST=unit nyc mocha --require debugging-aid/network --timeout 25000 test/unit/",
@@ -35,7 +36,7 @@
   },
   "repository": "Permissionless-Software-Foundation/bch-message-lib",
   "devDependencies": {
-    "@psf/bch-js": "6.4.5",
+    "@psf/bch-js": "6.7.3",
     "apidoc": "0.25.0",
     "browserify": "17.0.0",
     "chai": "4.1.2",
@@ -70,6 +71,18 @@
     }
   },
   "peerDependencies": {
-    "minimal-slp-wallet": ">= 4"
+    "minimal-slp-wallet": ">= 5"
+  },
+  "exports": {
+    ".": {
+      "import": {
+        "browser": "./dist/bch-message-lib.min.js",
+        "node": "./index.js",
+        "default": "./index.js"
+      },
+      "require": {
+        "default": "./index.js"
+      }
+    }
   }
 }
