@@ -10,7 +10,7 @@ const clonedeep = require('lodash.clonedeep')
 
 // Locally global variables.
 const assert = chai.assert
-const BchWallet = require('minimal-slp-wallet/index')
+const BchWallet = require('minimal-slp-wallet')
 
 // Mocking data libraries.
 const mockDataLib = require('./mocks/memo-mocks')

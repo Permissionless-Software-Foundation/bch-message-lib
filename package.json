@@ -36,7 +36,6 @@
   },
   "repository": "Permissionless-Software-Foundation/bch-message-lib",
   "devDependencies": {
-    "@psf/bch-js": "6.7.3",
     "apidoc": "0.25.0",
     "browserify": "17.0.0",
     "chai": "4.1.2",
@@ -50,6 +49,7 @@
     "eslint-plugin-standard": "4.0.0",
     "husky": "4.3.0",
     "lodash.clonedeep": "4.5.0",
+    "minimal-slp-wallet": "5.8.9",
     "mocha": "7.0.1",
     "nyc": "15.0.0",
     "semantic-release": "17.4.3",
